@@ -1,0 +1,32 @@
+{
+  "name": "fepper-utils",
+  "version": "1.0.0",
+  "description": "Fepper utilities",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/electric-eloquence/fepper-utils.git"
+  },
+  "keywords": [
+    "atomic",
+    "component",
+    "design",
+    "end",
+    "fepper",
+    "front",
+    "front-end",
+    "frontend",
+    "lab",
+    "library",
+    "pattern",
+    "prototype",
+    "prototyper",
+    "prototyping",
+    "template"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/electric-eloquence/fepper-utils/issues"
+  },
+  "homepage": "https://github.com/electric-eloquence/fepper-utils#readme"
+}
