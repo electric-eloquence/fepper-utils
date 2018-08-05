@@ -1,17 +1,3 @@
-# Fepper Utilities
-
-If you are creating a Fepper extension:
-
-```shell
-npm install --save fepper-utils
-```
-
-Then, require in your JavaScript:
-
-```javascript
-const utils = require('fepper-utils');
-```
-
 ## Functions
 
 <dl>
