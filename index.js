@@ -449,7 +449,7 @@ exports.uiConfigNormalize = (uiObj, workDir) => {
 exports.console = console;
 
 /**
- * Abstract console.error to not trigger lint warnings.
+ * Abstract console.error to not trigger lint warnings/errors.
  * Outputs the error in red text.
  * Accepts the same arguments as console.error.
  */
@@ -479,7 +479,7 @@ exports.i = (obj, depth = null, showHidden = false) => {
 };
 
 /**
- * Abstract console.info to not trigger lint warnings.
+ * Abstract console.info to not trigger lint warnings/errors.
  * Outputs the info in green text.
  * Accepts the same arguments as console.info.
  */
@@ -492,7 +492,7 @@ exports.info = function () {
 };
 
 /**
- * Abstract console.log to not trigger lint warnings.
+ * Abstract console.log to not trigger lint warnings/errors.
  * Accepts the same arguments as console.log.
  */
 // Need to use the old function statement syntax so the arguments object works correctly.
@@ -501,7 +501,7 @@ exports.log = function () {
 };
 
 /**
- * Abstract console.warn to not trigger lint warnings.
+ * Abstract console.warn to not trigger lint warnings/errors.
  * Outputs the warning in yellow text.
  * Accepts the same arguments as console.warn.
  */

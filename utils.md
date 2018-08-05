@@ -31,7 +31,7 @@ Turn relative paths into absolute paths.
 Prepend leading dots to extnames if necessary.</p>
 </dd>
 <dt><a href="#error">error()</a></dt>
-<dd><p>Abstract console.error to not trigger lint warnings.
+<dd><p>Abstract console.error to not trigger lint warnings/errors.
 Outputs the error in red text.
 Accepts the same arguments as console.error.</p>
 </dd>
@@ -40,16 +40,16 @@ Accepts the same arguments as console.error.</p>
 This exists primarily for internal debugging. Be sure to remove invocations when done because they won&#39;t pass lint.</p>
 </dd>
 <dt><a href="#info">info()</a></dt>
-<dd><p>Abstract console.info to not trigger lint warnings.
+<dd><p>Abstract console.info to not trigger lint warnings/errors.
 Outputs the info in green text.
 Accepts the same arguments as console.info.</p>
 </dd>
 <dt><a href="#log">log()</a></dt>
-<dd><p>Abstract console.log to not trigger lint warnings.
+<dd><p>Abstract console.log to not trigger lint warnings/errors.
 Accepts the same arguments as console.log.</p>
 </dd>
 <dt><a href="#warn">warn()</a></dt>
-<dd><p>Abstract console.warn to not trigger lint warnings.
+<dd><p>Abstract console.warn to not trigger lint warnings/errors.
 Outputs the warning in yellow text.
 Accepts the same arguments as console.warn.</p>
 </dd>
@@ -168,7 +168,7 @@ Prepend leading dots to extnames if necessary.
 <a name="error"></a>
 
 ## error()
-Abstract console.error to not trigger lint warnings.
+Abstract console.error to not trigger lint warnings/errors.
 Outputs the error in red text.
 Accepts the same arguments as console.error.
 
@@ -190,7 +190,7 @@ This exists primarily for internal debugging. Be sure to remove invocations when
 <a name="info"></a>
 
 ## info()
-Abstract console.info to not trigger lint warnings.
+Abstract console.info to not trigger lint warnings/errors.
 Outputs the info in green text.
 Accepts the same arguments as console.info.
 
@@ -198,14 +198,14 @@ Accepts the same arguments as console.info.
 <a name="log"></a>
 
 ## log()
-Abstract console.log to not trigger lint warnings.
+Abstract console.log to not trigger lint warnings/errors.
 Accepts the same arguments as console.log.
 
 **Kind**: global function  
 <a name="warn"></a>
 
 ## warn()
-Abstract console.warn to not trigger lint warnings.
+Abstract console.warn to not trigger lint warnings/errors.
 Outputs the warning in yellow text.
 Accepts the same arguments as console.warn.
 
