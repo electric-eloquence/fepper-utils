@@ -64,6 +64,12 @@ exports.conf = (isHeaded = false) => {
     return;
   }
 
+  if (!exports.deepGet(conf.ui.paths)) {
+    exports.error('patternlab-config.json is missing paths, a critical value! Exiting!');
+
+    return;
+  }
+
   conf.ui.paths.core = `${appDir}/ui/core`;
 
   // Set defaults.
@@ -83,7 +89,6 @@ exports.conf = (isHeaded = false) => {
 
   // Get default confs for UI.
   try {
-    // Require so the config gets cached. Will require again later to instantiate Pattern Lab.
     const defaultsStr = fs.readFileSync(`${appDir}/excludes/patternlab-config.json`, enc);
     defaults.ui = JSON5.parse(defaultsStr);
 
@@ -177,6 +182,50 @@ exports.data = () => {
 // /////////////////////////////////////////////////////////////////////////////
 // Data utilities.
 // /////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Get data from a nested property within an object.
+ *
+ * @param {object} obj - The object from which to get the data.
+ * @param {string|array} path - Dot-notation string to the nested property, or array of keys if dot-notation won't work.
+ * @return {*|null} The retrieved data or null on failure.
+ */
+exports.deepGet = (obj, path) => {
+  if (!obj instanceof Object) {
+    return null;
+  }
+
+  let pathElements;
+
+  if (typeof path === 'string') {
+    pathElements = path.split('.');
+  }
+  else if (Array.isArray(path)) {
+    pathElements = path;
+  }
+  else {
+    return null;
+  }
+
+  const firstElement = pathElements.shift();
+
+  if (pathElements.length > 1) {
+    if (obj[firstElement]) {
+      return exports.deepGet(obj[firstElement], pathElements);
+    }
+    else {
+      return null;
+    }
+  }
+  else {
+    if (obj[firstElement]) {
+      return obj[firstElement];
+    }
+    else {
+      return null;
+    }
+  }
+}
 
 /**
  * Recursively merge properties of two objects.
@@ -456,6 +505,8 @@ exports.console = console;
 // Need to use the old function statement syntax so the arguments object works correctly.
 exports.error = function () {
   if (arguments.length) {
+    const error = arguments[0];
+
     arguments[0] = '\x1b[31m' + arguments[0] + '\x1b[0m';
   }
   exports.console.error.apply(null, arguments);

@@ -15,6 +15,9 @@ const utils = require('fepper-utils');
 ## Functions
 
 <dl>
+<dt><a href="#deepGet">deepGet(obj, path)</a> ⇒ <code>*</code> | <code>null</code></dt>
+<dd><p>Get data from a nested property within an object.</p>
+</dd>
 <dt><a href="#extendButNotOverride">extendButNotOverride(obj1, obj2)</a> ⇒ <code>object</code></dt>
 <dd><p>Recursively merge properties of two objects.</p>
 </dd>
@@ -74,6 +77,19 @@ Accepts the same arguments as console.warn.</p>
 <dd><p>Copy webserved dirs to static site dir.</p>
 </dd>
 </dl>
+
+<a name="deepGet"></a>
+
+## deepGet(obj, path) ⇒ <code>\*</code> \| <code>null</code>
+Get data from a nested property within an object.
+
+**Kind**: global function  
+**Returns**: <code>\*</code> \| <code>null</code> - The retrieved data or null on failure.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| obj | <code>object</code> | The object from which to get the data. |
+| path | <code>string</code> \| <code>array</code> | Dot-notation string to the nested property, or array of keys if dot-notation won't work. |
 
 <a name="extendButNotOverride"></a>
 
