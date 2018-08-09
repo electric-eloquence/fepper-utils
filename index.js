@@ -192,7 +192,7 @@ exports.data = () => {
  * @return {*|null} The retrieved data or null on failure.
  */
 exports.deepGet = (obj, path) => {
-  if (!obj instanceof Object) {
+  if (!(obj instanceof Object)) {
     return null;
   }
 
@@ -208,9 +208,9 @@ exports.deepGet = (obj, path) => {
     return null;
   }
 
-  const firstElement = pathElements.shift();
-
   if (pathElements.length > 1) {
+    const firstElement = pathElements.shift();
+
     if (obj[firstElement]) {
       return exports.deepGet(obj[firstElement], pathElements);
     }
@@ -219,14 +219,14 @@ exports.deepGet = (obj, path) => {
     }
   }
   else {
-    if (obj[firstElement]) {
-      return obj[firstElement];
+    if (obj[pathElements[0]]) {
+      return obj[pathElements[0]];
     }
     else {
       return null;
     }
   }
-}
+};
 
 /**
  * Recursively merge properties of two objects.
