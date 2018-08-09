@@ -64,7 +64,7 @@ exports.conf = (isHeaded = false) => {
     return;
   }
 
-  if (!exports.deepGet(conf.ui.paths)) {
+  if (!exports.deepGet(conf, 'ui.paths')) {
     exports.error('patternlab-config.json is missing paths, a critical value! Exiting!');
 
     return;
@@ -135,6 +135,17 @@ exports.pref = () => {
   let defaults;
 
   try {
+    const yml = fs.readFileSync(`${global.rootDir}/pref.yml`, enc);
+    pref = global.pref = yaml.safeLoad(yml);
+  }
+  catch (err) {
+    exports.error(err);
+    exports.error('Missing or malformed pref.yml! Exiting!');
+
+    return;
+  }
+
+  try {
     const yml = fs.readFileSync(`${global.appDir}/excludes/pref.yml`, enc);
     defaults = yaml.safeLoad(yml);
   }
@@ -145,19 +156,9 @@ exports.pref = () => {
     return;
   }
 
-  try {
-    const yml = fs.readFileSync(`${global.rootDir}/pref.yml`, enc);
-    pref = yaml.safeLoad(yml);
-  }
-  catch (err) {
-    exports.error(err);
-    exports.error('Missing or malformed pref.yml! Exiting!');
-
-    return;
-  }
-
   exports.extendButNotOverride(pref, defaults);
 
+  // Write to global object.
   global.pref = pref;
 
   return pref;
@@ -507,8 +508,19 @@ exports.error = function () {
   if (arguments.length) {
     const error = arguments[0];
 
-    arguments[0] = '\x1b[31m' + arguments[0] + '\x1b[0m';
+    if (
+      global.conf &&
+      exports.deepGet(global.conf, 'ui.debug') === true &&
+      error instanceof Error &&
+      error.stack
+    ) {
+      arguments[0] = '\x1b[31m' + error.stack + '\x1b[0m';
+    }
+    else {
+      arguments[0] = '\x1b[31m' + error + '\x1b[0m';
+    }
   }
+
   exports.console.error.apply(null, arguments);
 };
 
@@ -539,6 +551,7 @@ exports.info = function () {
   if (arguments.length) {
     arguments[0] = '\x1b[32m' + arguments[0] + '\x1b[0m';
   }
+
   exports.console.info.apply(null, arguments);
 };
 
@@ -561,6 +574,7 @@ exports.warn = function () {
   if (arguments.length) {
     arguments[0] = '\x1b[33m' + arguments[0] + '\x1b[0m';
   }
+
   exports.console.warn.apply(null, arguments);
 };
 
