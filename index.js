@@ -407,8 +407,9 @@ exports.pathResolve = function () {
 
 /**
  * Normalize UI config values.
- * Turn relative paths into absolute paths.
- * Prepend leading dots to extnames if necessary.
+ * Strip leading dot+slashes and trailing slashes from relative paths and save.
+ * Turn relative paths into absolute paths and save.
+ * Prepend leading dots to extension nnames if necessary.
  *
  * @param {object} uiObj - The UI configuration object.
  *   Since uiObj gets mutated, the return value is only necessary for the purpose of referencing to a new variable.
@@ -427,6 +428,9 @@ exports.uiConfigNormalize = (uiObj, workDir) => {
   const pathsPublic = uiObj.paths.public;
   const pathsSource = uiObj.paths.source;
 
+  // gulp.watch() will not trigger on file creation if watching an absolute path, so save normalized relative paths.
+  uiObj.pathsRelative = uiObj.pathsRelative || {source: {}, public: {}};
+
   for (let i in pathsPublic) {
     if (!pathsPublic.hasOwnProperty(i)) {
       continue;
@@ -443,6 +447,7 @@ exports.uiConfigNormalize = (uiObj, workDir) => {
     }
 
     if (pathsPublic[i].indexOf(workDir) !== 0) {
+      uiObj.pathsRelative.public[i] = pathPublic;
       pathsPublic[i] = `${workDir}/${pathPublic}`;
     }
   }
@@ -463,6 +468,7 @@ exports.uiConfigNormalize = (uiObj, workDir) => {
     }
 
     if (pathsSource[i].indexOf(workDir) !== 0) {
+      uiObj.pathsRelative.source[i] = pathSource;
       pathsSource[i] = `${workDir}/${pathSource}`;
     }
   }
