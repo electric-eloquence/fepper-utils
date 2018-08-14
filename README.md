@@ -44,8 +44,9 @@ Accepts string arguments to be concatenated into a forward-slash separated path.
 </dd>
 <dt><a href="#uiConfigNormalize">uiConfigNormalize(uiObj, workDir)</a> ⇒ <code>object</code></dt>
 <dd><p>Normalize UI config values.
-Turn relative paths into absolute paths.
-Prepend leading dots to extnames if necessary.</p>
+Strip leading dot+slashes and trailing slashes from relative paths and save.
+Turn relative paths into absolute paths and save.
+Prepend leading dots to extension nnames if necessary.</p>
 </dd>
 <dt><a href="#error">error()</a></dt>
 <dd><p>Abstract console.error to not trigger lint warnings/errors.
@@ -184,8 +185,9 @@ Accepts string arguments to be concatenated into a forward-slash separated path.
 
 ## uiConfigNormalize(uiObj, workDir) ⇒ <code>object</code>
 Normalize UI config values.
-Turn relative paths into absolute paths.
-Prepend leading dots to extnames if necessary.
+Strip leading dot+slashes and trailing slashes from relative paths and save.
+Turn relative paths into absolute paths and save.
+Prepend leading dots to extension nnames if necessary.
 
 **Kind**: global function  
 **Returns**: <code>object</code> - The mutated uiObj.  
