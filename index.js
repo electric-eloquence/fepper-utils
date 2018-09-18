@@ -176,7 +176,7 @@ exports.data = () => {
   catch (err) {
     exports.error(err);
 
-    if (!exports.deepGet(conf, 'ui.paths.source.data')) {
+    if (!exports.deepGet(global.conf, 'ui.paths.source.data')) {
       exports.error('paths.source.data must be defined in patternlab-config.json!');
     }
   }
