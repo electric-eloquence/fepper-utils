@@ -52,8 +52,6 @@ exports.conf = (isHeaded = false) => {
     const defaultsStr = fs.readFileSync(`${rootDir}/patternlab-config.json`, enc);
     conf.ui = JSON5.parse(defaultsStr);
 
-    // TODO: enumerate required settings and fail with console error if not present.
-
     // Update Pattern Lab paths.
     exports.uiConfigNormalize(conf.ui, rootDir);
   }
@@ -64,8 +62,14 @@ exports.conf = (isHeaded = false) => {
     return;
   }
 
-  if (!exports.deepGet(conf, 'ui.paths')) {
-    exports.error('patternlab-config.json is missing paths, a critical value! Exiting!');
+  if (!exports.deepGet(conf, 'ui.paths.source')) {
+    exports.error('paths.source must be defined in patternlab-config.json! Exiting!');
+
+    return;
+  }
+
+  if (!exports.deepGet(conf, 'ui.paths.public')) {
+    exports.error('paths.public must be defined in patternlab-config.json! Exiting!');
 
     return;
   }
