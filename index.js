@@ -627,10 +627,17 @@ exports.webservedDirnamesTruncate = (webservedDirsFull) => {
  * @param {string} staticDir - The destination directory.
  */
 exports.webservedDirsCopy = (webservedDirsFull, webservedDirsShort, staticDir) => {
-  for (let i = 0; i < webservedDirsFull.length; i++) {
-    fs.copySync(
-      `${global.conf.backend_dir}/${webservedDirsFull[i]}`,
-      `${staticDir}/${webservedDirsShort[i]}`
-    );
+  try {
+    for (let i = 0; i < webservedDirsFull.length; i++) {
+      fs.copySync(
+        `${global.conf.backend_dir}/${webservedDirsFull[i]}`,
+        `${staticDir}/${webservedDirsShort[i]}`
+      );
+    }
+  }
+  catch (err) {
+    exports.error(err);
+
+    return;
   }
 };
