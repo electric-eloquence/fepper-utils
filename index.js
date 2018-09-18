@@ -175,6 +175,10 @@ exports.data = () => {
   }
   catch (err) {
     exports.error(err);
+
+    if (!exports.deepGet(global.conf.ui.paths.source.data)) {
+      exports.error('global.conf.ui.paths.source.data must be defined!');
+    }
   }
 
   return data;
