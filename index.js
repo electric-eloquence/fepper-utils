@@ -49,8 +49,8 @@ exports.conf = (isHeaded = false) => {
 
   // Retrieve custom values for UI.
   try {
-    const defaultsStr = fs.readFileSync(`${rootDir}/patternlab-config.json`, enc);
-    conf.ui = JSON5.parse(defaultsStr);
+    const confUiStr = fs.readFileSync(`${rootDir}/patternlab-config.json`, enc);
+    conf.ui = JSON5.parse(confUiStr);
 
     // Update Pattern Lab paths.
     exports.uiConfigNormalize(conf.ui, rootDir);
@@ -58,18 +58,6 @@ exports.conf = (isHeaded = false) => {
   catch (err) {
     exports.error(err);
     exports.error('Missing or malformed patternlab-config.json! Exiting!');
-
-    return;
-  }
-
-  if (!exports.deepGet(conf, 'ui.paths.source')) {
-    exports.error('paths.source must be defined in patternlab-config.json! Exiting!');
-
-    return;
-  }
-
-  if (!exports.deepGet(conf, 'ui.paths.public')) {
-    exports.error('paths.public must be defined in patternlab-config.json! Exiting!');
 
     return;
   }
@@ -93,8 +81,8 @@ exports.conf = (isHeaded = false) => {
 
   // Get default confs for UI.
   try {
-    const defaultsStr = fs.readFileSync(`${appDir}/excludes/patternlab-config.json`, enc);
-    defaults.ui = JSON5.parse(defaultsStr);
+    const defaultsUiStr = fs.readFileSync(`${appDir}/excludes/patternlab-config.json`, enc);
+    defaults.ui = JSON5.parse(defaultsUiStr);
 
     // Update Pattern Lab paths.
     exports.uiConfigNormalize(defaults.ui, rootDir);
@@ -179,10 +167,6 @@ exports.data = () => {
   }
   catch (err) {
     exports.error(err);
-
-    if (!exports.deepGet(global.conf, 'ui.paths.source.data')) {
-      exports.error('paths.source.data must be defined in patternlab-config.json!');
-    }
   }
 
   return data;
