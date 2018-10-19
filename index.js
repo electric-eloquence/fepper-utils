@@ -380,21 +380,21 @@ exports.findup = (filename, workDir) => {
  * Resolution will not occur with the file system, so relative paths will stay relative and wrong paths will stay wrong.
  * Accepts string arguments to be concatenated into a forward-slash separated path.
  *
+ * @param {...string} ...pathSegments - Path or path segments.
  * @return {string} Path.
  */
-// Need to use the old function statement syntax so the arguments object works correctly.
-exports.pathResolve = function () {
-  let pathname = '';
+exports.pathResolve = (...pathSegments) => {
+  let pathName = '';
 
-  for (let i = 0; i < arguments.length; i++) {
+  for (let i = 0, l = pathSegments.length; i < l; i++) {
     if (i) {
-      pathname += '/';
+      pathName += '/';
     }
 
-    pathname += arguments[i];
+    pathName += pathSegments[i];
   }
 
-  return slash(path.normalize(pathname));
+  return slash(path.normalize(pathName));
 };
 
 /**
@@ -593,7 +593,7 @@ exports.webservedDirnamesTruncate = (webservedDirsFull) => {
 
   const webservedDirsShort = [];
 
-  for (let i = 0; i < webservedDirsFull.length; i++) {
+  for (let i = 0, l = webservedDirsFull.length; i < l; i++) {
     const webservedDirSplit = webservedDirsFull[i].split('/');
     webservedDirSplit.shift();
     webservedDirsShort.push(webservedDirSplit.join('/'));
@@ -612,7 +612,7 @@ exports.webservedDirnamesTruncate = (webservedDirsFull) => {
  */
 exports.webservedDirsCopy = (webservedDirsFull, webservedDirsShort, staticDir) => {
   try {
-    for (let i = 0; i < webservedDirsFull.length; i++) {
+    for (let i = 0, l = webservedDirsFull.length; i < l; i++) {
       fs.copySync(
         `${global.conf.backend_dir}/${webservedDirsFull[i]}`,
         `${staticDir}/${webservedDirsShort[i]}`
