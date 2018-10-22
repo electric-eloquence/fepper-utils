@@ -13,7 +13,7 @@ const enc = 'utf8';
 // /////////////////////////////////////////////////////////////////////////////
 
 // Do not JSDoc.
-exports.conf = (isHeaded = false) => {
+exports.conf = () => {
   const rootDir = global.rootDir;
 
   // Return if global.conf already set.
@@ -36,17 +36,6 @@ exports.conf = (isHeaded = false) => {
     return;
   }
 
-  // Set appDir.
-  let appDir;
-
-  if (conf.app_dir) {
-    // Using exports.pathResolve() in case there are double-dots in conf.app_dir.
-    appDir = global.appDir = conf.app_dir = exports.pathResolve(rootDir, conf.app_dir);
-  }
-  else {
-    appDir = global.appDir;
-  }
-
   // Retrieve custom values for UI.
   try {
     const confUiStr = fs.readFileSync(`${rootDir}/patternlab-config.json`, enc);
@@ -62,7 +51,7 @@ exports.conf = (isHeaded = false) => {
     return;
   }
 
-  conf.ui.paths.core = `${appDir}/ui/core`;
+  const appDir = global.appDir;
 
   // Set defaults.
   let defaults;
@@ -104,8 +93,6 @@ exports.conf = (isHeaded = false) => {
   // Using exports.pathResolve() in case there are double-dots in these confs.
   conf.backend_dir = exports.pathResolve(rootDir, conf.backend_dir);
   conf.extend_dir = exports.pathResolve(rootDir, conf.extend_dir);
-
-  conf.headed = isHeaded;
 
   // HTML scraper confs. Defining here because they should never be exposed to end-users.
   conf.scrape = {
@@ -184,10 +171,6 @@ exports.data = () => {
  * @return {*|null} The retrieved data or null on failure.
  */
 exports.deepGet = (obj, path) => {
-  if (!(obj instanceof Object)) {
-    return null;
-  }
-
   let pathElements;
 
   if (typeof path === 'string') {
@@ -197,6 +180,20 @@ exports.deepGet = (obj, path) => {
     pathElements = path;
   }
   else {
+    // This case will return the obj parameter if a path wasn't submitted.
+    // A possible user-error would be `exports.deepGet(nest.egg.yolk)` instead of `exports.deepGet(nest, 'egg.yolk')`.
+    // Alert the user when this is the case and provide a stack trace.
+    try {
+      throw new Error('fepper-utils deepGet() requires a valid path parameter, i.e. `deepGet(nest, \'egg.yolk\')`');
+    }
+    catch (err) {
+      exports.error(err);
+    }
+
+    return obj;
+  }
+
+  if (!(obj instanceof Object)) {
     return null;
   }
 
@@ -406,22 +403,57 @@ exports.pathResolve = (...pathSegments) => {
  * @param {object} uiObj - The UI configuration object.
  *   Since uiObj gets mutated, the return value is only necessary for the purpose of referencing to a new variable.
  * @param {string} workDir - The absolute path to the directory directly above the relative paths in the uiObj.
+ * @param {string} [appDir] - The absolute path to the fepper-npm directory. Only necessary when Pattern Lab is
+ *   instantiated without Fepper.
  * @return {object} The mutated uiObj.
  */
-exports.uiConfigNormalize = (uiObj, workDir) => {
+exports.uiConfigNormalize = (uiObj, workDir, appDir) => {
   if (!uiObj || !uiObj.paths || !uiObj.paths.source) {
     throw 'Missing or malformed paths.source property!';
   }
 
   if (!uiObj.paths.public) {
-    throw 'Missing or malformed paths.source property!';
+    throw 'Missing or malformed paths.public property!';
   }
 
-  const pathsPublic = uiObj.paths.public;
+  // Fepper automatically sets global.appDir. Pattern Lab without Fepper needs to set it here.
+  if (appDir) {
+    global.appDir = appDir;
+  }
+
+  if (process.env.DEBUG) {
+    uiObj.debug = true;
+  }
+
   const pathsSource = uiObj.paths.source;
+  const pathsPublic = uiObj.paths.public;
+
+  uiObj.paths.core = uiObj.paths.core || `${global.appDir}/ui/core`;
+  pathsPublic.styleguide = pathsPublic.styleguide || 'public/node_modules/fepper-ui';
 
   // gulp.watch() will not trigger on file creation if watching an absolute path, so save normalized relative paths.
   uiObj.pathsRelative = uiObj.pathsRelative || {source: {}, public: {}};
+
+  for (let i in pathsSource) {
+    if (!pathsSource.hasOwnProperty(i)) {
+      continue;
+    }
+
+    let pathSource = pathsSource[i];
+
+    if (pathSource.slice(0, 2) === './') {
+      pathSource = pathSource.slice(2);
+    }
+
+    if (pathSource.slice(-1) === '/') {
+      pathSource = pathSource.slice(0, -1);
+    }
+
+    if (pathsSource[i].indexOf(workDir) !== 0) {
+      uiObj.pathsRelative.source[i] = pathSource;
+      pathsSource[i] = `${workDir}/${pathSource}`;
+    }
+  }
 
   for (let i in pathsPublic) {
     if (!pathsPublic.hasOwnProperty(i)) {
@@ -444,25 +476,23 @@ exports.uiConfigNormalize = (uiObj, workDir) => {
     }
   }
 
-  for (let i in pathsSource) {
-    if (!pathsSource.hasOwnProperty(i)) {
+  // We also need paths relative to the public directory. This is so names for directories within the UI's document root
+  // can be user-configured, and not hard-coded.
+  uiObj.pathsPublic = uiObj.pathsPublic || {};
+  const regex = new RegExp('^' + uiObj.pathsRelative.public.root + '\\/');
+
+  for (let i in uiObj.pathsRelative.public) {
+    if (!uiObj.pathsRelative.public.hasOwnProperty(i)) {
       continue;
     }
 
-    let pathSource = pathsSource[i];
-
-    if (pathSource.slice(0, 2) === './') {
-      pathSource = pathSource.slice(2);
+    if (i === 'root') {
+      continue;
     }
 
-    if (pathSource.slice(-1) === '/') {
-      pathSource = pathSource.slice(0, -1);
-    }
+    let pathPublic = uiObj.pathsRelative.public[i];
 
-    if (pathsSource[i].indexOf(workDir) !== 0) {
-      uiObj.pathsRelative.source[i] = pathSource;
-      pathsSource[i] = `${workDir}/${pathSource}`;
-    }
+    uiObj.pathsPublic[i] = uiObj.pathsRelative.public[i].replace(regex, '');
   }
 
   if (uiObj.patternExportDirectory.indexOf(workDir) !== 0) {
