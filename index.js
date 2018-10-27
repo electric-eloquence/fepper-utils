@@ -168,7 +168,7 @@ exports.data = () => {
  *
  * @param {object} obj - The object from which to get the data.
  * @param {string|array} path - Dot-notation string to the nested property, or array of keys if dot-notation won't work.
- * @return {*|null} The retrieved data or null on failure.
+ * @returns {*|null} The retrieved data or null on failure.
  */
 exports.deepGet = (obj, path) => {
   let pathElements;
@@ -223,7 +223,7 @@ exports.deepGet = (obj, path) => {
  * @param {object} obj1 - This object's properties have priority over obj2.
  * @param {object} obj2 - If obj2 has properties obj1 doesn't, add to obj1, but do not override.
  *   Since obj1 gets mutated, the return value is only necessary for the purpose of referencing to a new variable.
- * @return {object} The mutated obj1 object.
+ * @returns {object} The mutated obj1 object.
  */
 exports.extendButNotOverride = (obj1, obj2) => {
   for (let i in obj2) {
@@ -259,7 +259,7 @@ exports.extendButNotOverride = (obj1, obj2) => {
  * Escape reserved regular expression characters.
  *
  * @param {string} regexStr - The regular expression with unescaped reserved characters.
- * @return {string} A regular expression with escaped reserved characters.
+ * @returns {string} A regular expression with escaped reserved characters.
  */
 exports.regexReservedCharsEscape = (regexStr) => {
   return regexStr.replace(/[.*+?^${}()|[\]\\\/]/g, '\\$&');
@@ -272,7 +272,7 @@ exports.regexReservedCharsEscape = (regexStr) => {
  *
  * @param {array} a - Array to be shuffled.
  *   Since a gets mutated, the return value is only necessary for the purpose of referencing to a new variable.
- * @return {array} Shuffled array.
+ * @returns {array} Shuffled array.
  */
 exports.shuffle = (a) => {
   for (let i = a.length - 1; i > 0; i--) {
@@ -293,7 +293,7 @@ exports.shuffle = (a) => {
  * Validate existence of a backend subdirectory.
  *
  * @param {string} backendDir - The relative path to a subdirectory of the backend.
- * @return {string} A valid absolute path to the backend subdirectory, or an empty string.
+ * @returns {string} A valid absolute path to the backend subdirectory, or an empty string.
  */
 exports.backendDirCheck = (backendDir) => {
   if (typeof backendDir === 'string') {
@@ -320,7 +320,7 @@ exports.backendDirCheck = (backendDir) => {
  * is prepended with a dot if it was omitted as the first valid character.
  *
  * @param {string} ext - File extension.
- * @return {string} A normalized file extension, or an empty string if it fails validation.
+ * @returns {string} A normalized file extension, or an empty string if it fails validation.
  */
 exports.extNormalize = (ext) => {
   if (typeof ext === 'string') {
@@ -345,7 +345,7 @@ exports.extNormalize = (ext) => {
  *
  * @param {string} filename - The file being searched for.
  * @param {string} workDir - The absolute path where the search starts.
- * @return {string} The absolute path to the found file or an empty string if the search fails.
+ * @returns {string} The absolute path to the found file or an empty string if the search fails.
  */
 exports.findup = (filename, workDir) => {
   const workDirFiles = fs.readdirSync(workDir);
@@ -378,7 +378,7 @@ exports.findup = (filename, workDir) => {
  * Accepts string arguments to be concatenated into a forward-slash separated path.
  *
  * @param {...string} ...pathSegments - Path or path segments.
- * @return {string} Path.
+ * @returns {string} Path.
  */
 exports.pathResolve = (...pathSegments) => {
   let pathName = '';
@@ -405,7 +405,7 @@ exports.pathResolve = (...pathSegments) => {
  * @param {string} workDir - The absolute path to the directory directly above the relative paths in the uiObj.
  * @param {string} [appDir] - The absolute path to the fepper-npm directory. Only necessary when Pattern Lab is
  *   instantiated without Fepper.
- * @return {object} The mutated uiObj.
+ * @returns {object} The mutated uiObj.
  */
 exports.uiConfigNormalize = (uiObj, workDir, appDir) => {
   if (!uiObj || !uiObj.paths || !uiObj.paths.source) {
@@ -614,7 +614,7 @@ exports.warn = function () {
  * Remove first path segment from values in webservedDirsFull array. Return a new array composed of these new values.
  *
  * @param {array} webservedDirsFull - The array of webserved directories.
- * @return {array} The webserved directories stripped of configuration prefix.
+ * @returns {array} The webserved directories stripped of configuration prefix.
  */
 exports.webservedDirnamesTruncate = (webservedDirsFull) => {
   if (!webservedDirsFull || !webservedDirsFull.length) {
