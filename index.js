@@ -94,6 +94,9 @@ exports.conf = () => {
   conf.backend_dir = exports.pathResolve(rootDir, conf.backend_dir);
   conf.extend_dir = exports.pathResolve(rootDir, conf.extend_dir);
 
+  // Set is_windows boolean.
+  conf.is_windows = (process.env.ComSpec && process.env.ComSpec.toLowerCase() === 'c:\\windows\\system32\\cmd.exe');
+
   // HTML scraper confs. Defining here because they should never be exposed to end-users.
   conf.scrape = {
     limit_error_msg: 'Submitting too many requests per minute.',
