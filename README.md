@@ -42,7 +42,7 @@ is prepended with a dot if it was omitted as the first valid character.</p>
 Resolution will not occur with the file system, so relative paths will stay relative and wrong paths will stay wrong.
 Accepts string arguments to be concatenated into a forward-slash separated path.</p>
 </dd>
-<dt><a href="#uiConfigNormalize">uiConfigNormalize(uiObj, workDir)</a> ⇒ <code>object</code></dt>
+<dt><a href="#uiConfigNormalize">uiConfigNormalize(uiObj, workDir, [appDir])</a> ⇒ <code>object</code></dt>
 <dd><p>Normalize UI config values.
 Strip leading dot+slashes and trailing slashes from relative paths and save.
 Turn relative paths into absolute paths and save.
@@ -181,9 +181,14 @@ Accepts string arguments to be concatenated into a forward-slash separated path.
 
 **Kind**: global function  
 **Returns**: <code>string</code> - Path.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| ......pathSegments | <code>string</code> | Path or path segments. |
+
 <a name="uiConfigNormalize"></a>
 
-## uiConfigNormalize(uiObj, workDir) ⇒ <code>object</code>
+## uiConfigNormalize(uiObj, workDir, [appDir]) ⇒ <code>object</code>
 Normalize UI config values.
 Strip leading dot+slashes and trailing slashes from relative paths and save.
 Turn relative paths into absolute paths and save.
@@ -196,6 +201,7 @@ Prepend leading dots to extension nnames if necessary.
 | --- | --- | --- |
 | uiObj | <code>object</code> | The UI configuration object.   Since uiObj gets mutated, the return value is only necessary for the purpose of referencing to a new variable. |
 | workDir | <code>string</code> | The absolute path to the directory directly above the relative paths in the uiObj. |
+| [appDir] | <code>string</code> | The absolute path to the fepper-npm directory. Only necessary when Pattern Lab is   instantiated without Fepper. |
 
 <a name="error"></a>
 
