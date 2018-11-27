@@ -12,6 +12,9 @@ Then, require in your JavaScript:
 const utils = require('fepper-utils');
 ```
 
+<!-- START jsdoc-to-markdown generated JS API DOC -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN `npm run jsdoc` TO UPDATE -->
+
 ## Functions
 
 <dl>
@@ -273,3 +276,4 @@ Copy webserved dirs to static site dir.
 | webservedDirsShort | <code>array</code> | Path to directories webserved by Fepper   truncated for publishing to static site. |
 | staticDir | <code>string</code> | The destination directory. |
 
+<!-- END jsdoc-to-markdown generated JS API DOC -->
