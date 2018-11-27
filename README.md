@@ -15,6 +15,8 @@ const utils = require('fepper-utils');
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN `npm run jsdoc` TO UPDATE -->
 <!-- START jsdoc-to-markdown GENERATED API DOC -->
 
+## Functions
+
 <dl>
 <dt><a href="#deepGet">deepGet(obj, path)</a> ⇒ <code>*</code> | <code>null</code></dt>
 <dd><p>Get data from a nested property within an object.</p>
