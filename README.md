@@ -13,9 +13,7 @@ const utils = require('fepper-utils');
 ```
 
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN `npm run jsdoc` TO UPDATE -->
-<!-- START jsdoc-to-markdown generated JS API DOC -->
-
-## Functions
+<!-- START jsdoc-to-markdown GENERATED API DOC -->
 
 <dl>
 <dt><a href="#deepGet">deepGet(obj, path)</a> ⇒ <code>*</code> | <code>null</code></dt>
@@ -276,4 +274,4 @@ Copy webserved dirs to static site dir.
 | webservedDirsShort | <code>array</code> | Path to directories webserved by Fepper   truncated for publishing to static site. |
 | staticDir | <code>string</code> | The destination directory. |
 
-<!-- STOP jsdoc-to-markdown generated JS API DOC -->
+<!-- STOP jsdoc-to-markdown GENERATED API DOC -->

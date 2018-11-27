@@ -12,4 +12,4 @@ const regex = new RegExp(regexStr);
 let readme = fs.readFileSync('./README.md', 'utf8');
 readme = readme.replace(regex, delimitStrStart + '\n\n' + md + delimitStrStop);
 
-fs.writeFileSync('./guh.md', readme);
+fs.writeFileSync('./README.md', readme);
