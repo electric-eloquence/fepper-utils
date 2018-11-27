@@ -493,8 +493,6 @@ exports.uiConfigNormalize = (uiObj, workDir, appDir) => {
       continue;
     }
 
-    let pathPublic = uiObj.pathsRelative.public[i];
-
     uiObj.pathsPublic[i] = uiObj.pathsRelative.public[i].replace(regex, '');
   }
 
