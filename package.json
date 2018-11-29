@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "jsdoc": "node run/jsdoc.js",
-    "lint": "npx eslint index.js && npx eslint run"
+    "lint": "eslint index.js && eslint run"
   },
   "husky": {
     "hooks": {
