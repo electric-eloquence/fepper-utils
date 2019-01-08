@@ -560,10 +560,10 @@ exports.httpCodes = {
 
 /**
  * "i" for "inspect". Shorthand for util.inspect or console.dir.
- * This exists primarily for internal debugging. Be sure to remove invocations when done because they won't pass lint.
+ * This exists primarily for internal debugging.
  *
  * @param {object} obj - The object to inspect.
- * @param {null|number} [depth=null] - The number of times to recurse while inspecting the object. null means infinity.
+ * @param {null|number} [depth=null] - Number of times to recurse while inspecting the object. `null` means infinity.
  * @param {boolean} [showHidden=false] - Whether the object's non-enumerable properties will be included in the result.
  */
 exports.i = (obj, depth = null, showHidden = false) => {

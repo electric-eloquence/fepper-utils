@@ -10,6 +10,7 @@ Then, require in your JavaScript:
 
 ```javascript
 const utils = require('fepper-utils');
+const property = utils.deepGet(obj, 'path.to.nested.property');
 ```
 
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN `npm run jsdoc` TO UPDATE -->
@@ -56,9 +57,9 @@ Prepend leading dots to extension nnames if necessary.</p>
 Outputs the error in red text.
 Accepts the same arguments as console.error.</p>
 </dd>
-<dt><a href="#i">i(obj, depth, showHidden)</a></dt>
+<dt><a href="#i">i(obj, [depth], [showHidden])</a></dt>
 <dd><p>&quot;i&quot; for &quot;inspect&quot;. Shorthand for util.inspect or console.dir.
-This exists primarily for internal debugging. Be sure to remove invocations when done because they won&#39;t pass lint.</p>
+This exists primarily for internal debugging.</p>
 </dd>
 <dt><a href="#info">info()</a></dt>
 <dd><p>Abstract console.info to not trigger lint warnings/errors.
@@ -87,7 +88,7 @@ Accepts the same arguments as console.warn.</p>
 ## deepGet(obj, path) ⇒ <code>\*</code> \| <code>null</code>
 Get data from a nested property within an object.
 
-**Kind**: global function  
+**Kind**: exported function  
 **Returns**: <code>\*</code> \| <code>null</code> - The retrieved data or null on failure.  
 
 | Param | Type | Description |
@@ -100,7 +101,7 @@ Get data from a nested property within an object.
 ## extendButNotOverride(obj1, obj2) ⇒ <code>object</code>
 Recursively merge properties of two objects.
 
-**Kind**: global function  
+**Kind**: exported function  
 **Returns**: <code>object</code> - The mutated obj1 object.  
 
 | Param | Type | Description |
@@ -113,7 +114,7 @@ Recursively merge properties of two objects.
 ## regexReservedCharsEscape(regexStr) ⇒ <code>string</code>
 Escape reserved regular expression characters.
 
-**Kind**: global function  
+**Kind**: exported function  
 **Returns**: <code>string</code> - A regular expression with escaped reserved characters.  
 
 | Param | Type | Description |
@@ -125,7 +126,7 @@ Escape reserved regular expression characters.
 ## shuffle(a) ⇒ <code>array</code>
 Shuffle the elements of an array with the Fisher-Yates algorithm.
 
-**Kind**: global function  
+**Kind**: exported function  
 **Returns**: <code>array</code> - Shuffled array.  
 **See**
 
@@ -142,7 +143,7 @@ Shuffle the elements of an array with the Fisher-Yates algorithm.
 ## backendDirCheck(backendDir) ⇒ <code>string</code>
 Validate existence of a backend subdirectory.
 
-**Kind**: global function  
+**Kind**: exported function  
 **Returns**: <code>string</code> - A valid absolute path to the backend subdirectory, or an empty string.  
 
 | Param | Type | Description |
@@ -155,7 +156,7 @@ Validate existence of a backend subdirectory.
 Normalize a file extension. Ensure that it is trimmed of extraneous whitespace, contains only valid characters, and
 is prepended with a dot if it was omitted as the first valid character.
 
-**Kind**: global function  
+**Kind**: exported function  
 **Returns**: <code>string</code> - A normalized file extension, or an empty string if it fails validation.  
 
 | Param | Type | Description |
@@ -167,7 +168,7 @@ is prepended with a dot if it was omitted as the first valid character.
 ## findup(filename, workDir) ⇒ <code>string</code>
 Search the file system from a starting directory upward.
 
-**Kind**: global function  
+**Kind**: exported function  
 **Returns**: <code>string</code> - The absolute path to the found file or an empty string if the search fails.  
 
 | Param | Type | Description |
@@ -182,7 +183,7 @@ Concatenate and normalize path segments, and also ensure that path separators ar
 Resolution will not occur with the file system, so relative paths will stay relative and wrong paths will stay wrong.
 Accepts string arguments to be concatenated into a forward-slash separated path.
 
-**Kind**: global function  
+**Kind**: exported function  
 **Returns**: <code>string</code> - Path.  
 
 | Param | Type | Description |
@@ -197,7 +198,7 @@ Strip leading dot+slashes and trailing slashes from relative paths and save.
 Turn relative paths into absolute paths and save.
 Prepend leading dots to extension nnames if necessary.
 
-**Kind**: global function  
+**Kind**: exported function  
 **Returns**: <code>object</code> - The mutated uiObj.  
 
 | Param | Type | Description |
@@ -213,20 +214,20 @@ Abstract console.error to not trigger lint warnings/errors.
 Outputs the error in red text.
 Accepts the same arguments as console.error.
 
-**Kind**: global function  
+**Kind**: exported function  
 <a name="i"></a>
 
-## i(obj, depth, showHidden)
+## i(obj, [depth], [showHidden])
 "i" for "inspect". Shorthand for util.inspect or console.dir.
-This exists primarily for internal debugging. Be sure to remove invocations when done because they won't pass lint.
+This exists primarily for internal debugging.
 
-**Kind**: global function  
+**Kind**: exported function  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| obj | <code>object</code> | The object to inspect. |
-| depth | <code>null</code> \| <code>number</code> | The number of times to recurse while inspecting the object. null means infinity. |
-| showHidden | <code>boolean</code> | Whether the object's non-enumerable properties will be included in the result. |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| obj | <code>object</code> |  | The object to inspect. |
+| [depth] | <code>null</code> \| <code>number</code> | <code>null</code> | Number of times to recurse while inspecting the object. `null` means infinity. |
+| [showHidden] | <code>boolean</code> | <code>false</code> | Whether the object's non-enumerable properties will be included in the result. |
 
 <a name="info"></a>
 
@@ -235,14 +236,14 @@ Abstract console.info to not trigger lint warnings/errors.
 Outputs the info in green text.
 Accepts the same arguments as console.info.
 
-**Kind**: global function  
+**Kind**: exported function  
 <a name="log"></a>
 
 ## log()
 Abstract console.log to not trigger lint warnings/errors.
 Accepts the same arguments as console.log.
 
-**Kind**: global function  
+**Kind**: exported function  
 <a name="warn"></a>
 
 ## warn()
@@ -250,13 +251,13 @@ Abstract console.warn to not trigger lint warnings/errors.
 Outputs the warning in yellow text.
 Accepts the same arguments as console.warn.
 
-**Kind**: global function  
+**Kind**: exported function  
 <a name="webservedDirnamesTruncate"></a>
 
 ## webservedDirnamesTruncate(webservedDirsFull) ⇒ <code>array</code>
 Remove first path segment from values in webservedDirsFull array. Return a new array composed of these new values.
 
-**Kind**: global function  
+**Kind**: exported function  
 **Returns**: <code>array</code> - The webserved directories stripped of configuration prefix.  
 
 | Param | Type | Description |
@@ -268,7 +269,7 @@ Remove first path segment from values in webservedDirsFull array. Return a new a
 ## webservedDirsCopy(webservedDirsFull, webservedDirsShort, staticDir)
 Copy webserved dirs to static site dir.
 
-**Kind**: global function  
+**Kind**: exported function  
 
 | Param | Type | Description |
 | --- | --- | --- |
