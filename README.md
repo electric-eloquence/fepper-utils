@@ -57,7 +57,7 @@ Prepend leading dots to extension nnames if necessary.</p>
 Outputs the error in red text.
 Accepts the same arguments as console.error.</p>
 </dd>
-<dt><a href="#i">i(obj, depth, showHidden)</a></dt>
+<dt><a href="#i">i(obj, [depth], [showHidden])</a></dt>
 <dd><p>&quot;i&quot; for &quot;inspect&quot;. Shorthand for util.inspect or console.dir.
 This exists primarily for internal debugging.</p>
 </dd>
@@ -217,7 +217,7 @@ Accepts the same arguments as console.error.
 **Kind**: exported function  
 <a name="i"></a>
 
-## i(obj, depth, showHidden)
+## i(obj, [depth], [showHidden])
 "i" for "inspect". Shorthand for util.inspect or console.dir.
 This exists primarily for internal debugging.
 
@@ -226,8 +226,8 @@ This exists primarily for internal debugging.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | obj | <code>object</code> |  | The object to inspect. |
-| depth | <code>null</code> \| <code>number</code> | <code>null</code> | Number of times to recurse while inspecting the object. `null` means infinity. |
-| showHidden | <code>boolean</code> | <code>false</code> | Whether the object's non-enumerable properties will be included in the result. |
+| [depth] | <code>null</code> \| <code>number</code> | <code>null</code> | Number of times to recurse while inspecting the object. `null` means infinity. |
+| [showHidden] | <code>boolean</code> | <code>false</code> | Whether the object's non-enumerable properties will be included in the result. |
 
 <a name="info"></a>
 
