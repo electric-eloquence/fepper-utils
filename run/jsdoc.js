@@ -14,7 +14,8 @@ let md = jsdoc2md.renderSync({files: [path.join(__dirname, '..', 'index.js')]});
 md = md.replace(/<code><\/code>/g, '<code>null</code>');
 md = md.replace(/\*\*Kind\*\*: global function/g, '**Kind**: exported function');
 
-let readme = fs.readFileSync(path.join(__dirname, '..', 'README.md'), 'utf8');
-readme = readme.replace(regex, delimitStrStart + '\n\n' + md + delimitStrStop);
+const readmeFile = path.join(__dirname, '..', 'README.md');
+let readmeContent = fs.readFileSync(readmeFile, 'utf8');
+readmeContent = readmeContent.replace(regex, delimitStrStart + '\n\n' + md + delimitStrStop);
 
-fs.writeFileSync(path.join(__dirname, '..', 'README.md'), readme);
+fs.writeFileSync(readmeFile, readmeContent);
