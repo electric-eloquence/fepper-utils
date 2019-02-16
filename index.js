@@ -532,7 +532,7 @@ exports.console = console;
  * Outputs the error in red text.
  * Accepts the same arguments as console.error.
  */
-// Need to use the old function statement syntax so the arguments object works correctly.
+// Need to use the function keyword so the arguments object works correctly.
 exports.error = function () {
   if (arguments.length) {
     const error = arguments[0];
@@ -575,7 +575,7 @@ exports.i = (obj, depth = null, showHidden = false) => {
  * Outputs the info in green text.
  * Accepts the same arguments as console.info.
  */
-// Need to use the old function statement syntax so the arguments object works correctly.
+// Need to use the function keyword so the arguments object works correctly.
 exports.info = function () {
   if (arguments.length) {
     arguments[0] = '\x1b[32m' + arguments[0] + '\x1b[0m';
@@ -588,7 +588,7 @@ exports.info = function () {
  * Abstract console.log to not trigger lint warnings/errors.
  * Accepts the same arguments as console.log.
  */
-// Need to use the old function statement syntax so the arguments object works correctly.
+// Need to use the function keyword so the arguments object works correctly.
 exports.log = function () {
   exports.console.log.apply(null, arguments);
 };
@@ -598,7 +598,7 @@ exports.log = function () {
  * Outputs the warning in yellow text.
  * Accepts the same arguments as console.warn.
  */
-// Need to use the old function statement syntax so the arguments object works correctly.
+// Need to use the function keyword so the arguments object works correctly.
 exports.warn = function () {
   if (arguments.length) {
     arguments[0] = '\x1b[33m' + arguments[0] + '\x1b[0m';
