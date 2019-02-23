@@ -299,7 +299,7 @@ exports.shuffle = (a) => {
  * @returns {string} A valid absolute path to the backend subdirectory, or an empty string.
  */
 exports.backendDirCheck = (backendDir) => {
-  if (typeof backendDir === 'string') {
+  if (backendDir && typeof backendDir === 'string') {
     const backendDirTrimmed = backendDir.trim();
     let fullPath;
     let stat;
