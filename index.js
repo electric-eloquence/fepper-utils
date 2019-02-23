@@ -295,13 +295,21 @@ exports.shuffle = (a) => {
 /**
  * Validate existence of a backend subdirectory.
  *
- * @param {string} backendDir - The relative path to a subdirectory of the backend.
+ * @param {string} backendDir - The path to a subdirectory of the backend.
  * @returns {string} A valid absolute path to the backend subdirectory, or an empty string.
  */
 exports.backendDirCheck = (backendDir) => {
   if (typeof backendDir === 'string') {
-    const fullPath = `${global.conf.backend_dir}/${backendDir.trim()}`;
+    const backendDirTrimmed = backendDir.trim();
+    let fullPath;
     let stat;
+
+    if (backendDirTrimmed.indexOf(global.conf.backend_dir) === 0) {
+      fullPath = backendDirTrimmed;
+    }
+    else {
+      fullPath = `${global.conf.backend_dir}/${backendDirTrimmed}`;
+    }
 
     try {
       stat = fs.statSync(fullPath);
