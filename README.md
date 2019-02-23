@@ -148,7 +148,7 @@ Validate existence of a backend subdirectory.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| backendDir | <code>string</code> | The relative path to a subdirectory of the backend. |
+| backendDir | <code>string</code> | The path to a subdirectory of the backend. |
 
 <a name="extNormalize"></a>
 
