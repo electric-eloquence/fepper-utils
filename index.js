@@ -538,12 +538,12 @@ exports.console = console;
 /**
  * Abstract console.error to not trigger lint warnings/errors.
  * Outputs the error in red text.
- * Accepts the same arguments as console.error.
+ *
+ * @param {...*} args - Same arguments as console.error.
  */
-// Need to use the function keyword so the arguments object works correctly.
-exports.error = function () {
-  if (arguments.length) {
-    const error = arguments[0];
+exports.error = (...args) => {
+  if (args.length) {
+    const error = args[0];
 
     if (
       global.conf &&
@@ -551,14 +551,14 @@ exports.error = function () {
       error instanceof Error &&
       error.stack
     ) {
-      arguments[0] = '\x1b[31m' + error.stack + '\x1b[0m';
+      args[0] = '\x1b[31m' + error.stack + '\x1b[0m';
     }
     else {
-      arguments[0] = '\x1b[31m' + error + '\x1b[0m';
+      args[0] = '\x1b[31m' + error + '\x1b[0m';
     }
   }
 
-  exports.console.error.apply(null, arguments);
+  exports.console.error.apply(null, args);
 };
 
 exports.httpCodes = {
@@ -581,38 +581,38 @@ exports.i = (obj, depth = null, showHidden = false) => {
 /**
  * Abstract console.info to not trigger lint warnings/errors.
  * Outputs the info in green text.
- * Accepts the same arguments as console.info.
+ *
+ * @param {...*} args - Same arguments as console.info.
  */
-// Need to use the function keyword so the arguments object works correctly.
-exports.info = function () {
-  if (arguments.length) {
-    arguments[0] = '\x1b[32m' + arguments[0] + '\x1b[0m';
+exports.info = (...args) => {
+  if (args.length) {
+    args[0] = '\x1b[32m' + args[0] + '\x1b[0m';
   }
 
-  exports.console.info.apply(null, arguments);
+  exports.console.info.apply(null, args);
 };
 
 /**
  * Abstract console.log to not trigger lint warnings/errors.
- * Accepts the same arguments as console.log.
+ *
+ * @param {...*} args - Same arguments as console.log.
  */
-// Need to use the function keyword so the arguments object works correctly.
-exports.log = function () {
-  exports.console.log.apply(null, arguments);
+exports.log = (...args) => {
+  exports.console.log.apply(null, args);
 };
 
 /**
  * Abstract console.warn to not trigger lint warnings/errors.
  * Outputs the warning in yellow text.
- * Accepts the same arguments as console.warn.
+ *
+ * @param {...*} args - Same arguments as console.warn.
  */
-// Need to use the function keyword so the arguments object works correctly.
-exports.warn = function () {
-  if (arguments.length) {
-    arguments[0] = '\x1b[33m' + arguments[0] + '\x1b[0m';
+exports.warn = (...args) => {
+  if (args.length) {
+    args[0] = '\x1b[33m' + args[0] + '\x1b[0m';
   }
 
-  exports.console.warn.apply(null, arguments);
+  exports.console.warn.apply(null, args);
 };
 
 // /////////////////////////////////////////////////////////////////////////////

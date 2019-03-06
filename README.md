@@ -52,28 +52,24 @@ Strip leading dot+slashes and trailing slashes from relative paths and save.
 Turn relative paths into absolute paths and save.
 Prepend leading dots to extension nnames if necessary.</p>
 </dd>
-<dt><a href="#error">error()</a></dt>
+<dt><a href="#error">error(...args)</a></dt>
 <dd><p>Abstract console.error to not trigger lint warnings/errors.
-Outputs the error in red text.
-Accepts the same arguments as console.error.</p>
+Outputs the error in red text.</p>
 </dd>
 <dt><a href="#i">i(obj, [depth], [showHidden])</a></dt>
 <dd><p>&quot;i&quot; for &quot;inspect&quot;. Shorthand for util.inspect or console.dir.
 This exists primarily for internal debugging.</p>
 </dd>
-<dt><a href="#info">info()</a></dt>
+<dt><a href="#info">info(...args)</a></dt>
 <dd><p>Abstract console.info to not trigger lint warnings/errors.
-Outputs the info in green text.
-Accepts the same arguments as console.info.</p>
+Outputs the info in green text.</p>
 </dd>
-<dt><a href="#log">log()</a></dt>
-<dd><p>Abstract console.log to not trigger lint warnings/errors.
-Accepts the same arguments as console.log.</p>
+<dt><a href="#log">log(...args)</a></dt>
+<dd><p>Abstract console.log to not trigger lint warnings/errors.</p>
 </dd>
-<dt><a href="#warn">warn()</a></dt>
+<dt><a href="#warn">warn(...args)</a></dt>
 <dd><p>Abstract console.warn to not trigger lint warnings/errors.
-Outputs the warning in yellow text.
-Accepts the same arguments as console.warn.</p>
+Outputs the warning in yellow text.</p>
 </dd>
 <dt><a href="#webservedDirnamesTruncate">webservedDirnamesTruncate(webservedDirsFull)</a> ⇒ <code>array</code></dt>
 <dd><p>Remove first path segment from values in webservedDirsFull array. Return a new array composed of these new values.</p>
@@ -209,12 +205,16 @@ Prepend leading dots to extension nnames if necessary.
 
 <a name="error"></a>
 
-## error()
+## error(...args)
 Abstract console.error to not trigger lint warnings/errors.
 Outputs the error in red text.
-Accepts the same arguments as console.error.
 
 **Kind**: exported function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| ...args | <code>\*</code> | Same arguments as console.error. |
+
 <a name="i"></a>
 
 ## i(obj, [depth], [showHidden])
@@ -231,27 +231,39 @@ This exists primarily for internal debugging.
 
 <a name="info"></a>
 
-## info()
+## info(...args)
 Abstract console.info to not trigger lint warnings/errors.
 Outputs the info in green text.
-Accepts the same arguments as console.info.
 
 **Kind**: exported function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| ...args | <code>\*</code> | Same arguments as console.info. |
+
 <a name="log"></a>
 
-## log()
+## log(...args)
 Abstract console.log to not trigger lint warnings/errors.
-Accepts the same arguments as console.log.
 
 **Kind**: exported function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| ...args | <code>\*</code> | Same arguments as console.log. |
+
 <a name="warn"></a>
 
-## warn()
+## warn(...args)
 Abstract console.warn to not trigger lint warnings/errors.
 Outputs the warning in yellow text.
-Accepts the same arguments as console.warn.
 
 **Kind**: exported function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| ...args | <code>\*</code> | Same arguments as console.warn. |
+
 <a name="webservedDirnamesTruncate"></a>
 
 ## webservedDirnamesTruncate(webservedDirsFull) ⇒ <code>array</code>
