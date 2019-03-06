@@ -634,6 +634,7 @@ exports.webservedDirnamesTruncate = (webservedDirsFull) => {
 
   for (let i = 0, l = webservedDirsFull.length; i < l; i++) {
     const webservedDirSplit = webservedDirsFull[i].split('/');
+
     webservedDirSplit.shift();
     webservedDirsShort.push(webservedDirSplit.join('/'));
   }
@@ -650,17 +651,17 @@ exports.webservedDirnamesTruncate = (webservedDirsFull) => {
  * @param {string} staticDir - The destination directory.
  */
 exports.webservedDirsCopy = (webservedDirsFull, webservedDirsShort, staticDir) => {
-  try {
-    for (let i = 0, l = webservedDirsFull.length; i < l; i++) {
+  for (let i = 0, l = webservedDirsFull.length; i < l; i++) {
+    try {
       fs.copySync(
         `${global.conf.backend_dir}/${webservedDirsFull[i]}`,
         `${staticDir}/${webservedDirsShort[i]}`
       );
     }
-  }
-  catch (err) {
-    exports.error(err);
+    catch (err) {
+      exports.error(err);
 
-    return;
+      continue;
+    }
   }
 };
