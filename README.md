@@ -286,7 +286,7 @@ Copy webserved dirs to static site dir.
 | Param | Type | Description |
 | --- | --- | --- |
 | webservedDirsFull | <code>array</code> | Path to directories webserved by Fepper. |
-| webservedDirsShort | <code>array</code> | Path to directories webserved by Fepper   truncated for publishing to static site. |
+| webservedDirsShort | <code>array</code> | Path to directories webserved by Fepper truncated for publishing to static site. |
 | staticDir | <code>string</code> | The destination directory. |
 
 <!-- STOP jsdoc-to-markdown GENERATED API DOC -->

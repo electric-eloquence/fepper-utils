@@ -646,8 +646,7 @@ exports.webservedDirnamesTruncate = (webservedDirsFull) => {
  * Copy webserved dirs to static site dir.
  *
  * @param {array} webservedDirsFull - Path to directories webserved by Fepper.
- * @param {array} webservedDirsShort - Path to directories webserved by Fepper
- *   truncated for publishing to static site.
+ * @param {array} webservedDirsShort - Path to directories webserved by Fepper truncated for publishing to static site.
  * @param {string} staticDir - The destination directory.
  */
 exports.webservedDirsCopy = (webservedDirsFull, webservedDirsShort, staticDir) => {
