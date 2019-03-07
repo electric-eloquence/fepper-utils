@@ -4,7 +4,7 @@
   "description": "Fepper utilities",
   "main": "index.js",
   "scripts": {
-    "jsdoc": "node run/jsdoc.js",
+    "doc": "node run/doc.js",
     "lint": "eslint index.js && eslint run"
   },
   "husky": {
