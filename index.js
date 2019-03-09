@@ -105,9 +105,34 @@ exports.conf = () => {
   };
 
   // Write to global object.
+  // This assignment is deprecated and will be removed. The assignment should be explicit where .conf() is invoked.
   global.conf = conf;
 
   return conf;
+};
+
+// Do not JSDoc.
+exports.findupRootDir = (cwd, dirname) => {
+  let rootDir = '';
+
+  if (cwd) {
+    rootDir = slash(cwd);
+  }
+  else if (process.env.ROOT_DIR) {
+    rootDir = slash(process.env.ROOT_DIR);
+  }
+  else {
+    // this.findup() will replace backslashes with slashes.
+    rootDir = this.findup('fepper.command', dirname);
+  }
+
+  if (!rootDir) {
+    this.error('Fepper cannot find the directory in which to start working! ' +
+      'You may need to submit it as a constructor argument! Exiting!');
+    throw new Error('EINVAL');
+  }
+
+  return rootDir;
 };
 
 // The difference between conf and pref is that conf values are mandatory. The pref file must still exist even if blank.
@@ -141,6 +166,7 @@ exports.pref = () => {
   exports.extendButNotOverride(pref, defaults);
 
   // Write to global object.
+  // This assignment is deprecated and will be removed. The assignment should be explicit where .pref() is invoked.
   global.pref = pref;
 
   return pref;
