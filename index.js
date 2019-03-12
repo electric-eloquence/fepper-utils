@@ -1,8 +1,10 @@
 'use strict';
 
+const beautify = require('js-beautify').html;
 const fs = require('fs-extra');
 const JSON5 = require('json5');
 const path = require('path');
+const RcLoader = require('rcloader');
 const slash = require('slash');
 const yaml = require('js-yaml');
 
@@ -186,6 +188,55 @@ exports.data = () => {
   }
 
   return data;
+};
+
+/**
+ * Beautify an HTML-like template. Any Feplet/Mustache code within will be beautified as well.
+ *
+ * @param {string} extendedTemplate - The string contents of an HTML-like template.
+ * @returns {string} The beautified template code.
+ */
+exports.beautifyTemplate = (extendedTemplate) => {
+  // Load js-beautify with options configured in .jsbeautifyrc.
+  const rcFile = '.jsbeautifyrc';
+  const rcLoader = new RcLoader(rcFile);
+  let rcOpts;
+
+  // First, try to load .jsbeautifyrc with user-configurable options.
+  if (fs.existsSync(`${global.conf.rootDir}/${rcFile}`)) {
+    rcOpts = rcLoader.for(`${global.conf.rootDir}/${rcFile}`, {lookup: false});
+  }
+  // Next, try to load the .jsbeautifyrc that ships with fepper-npm.
+  else if (fs.existsSync(`${global.conf.appDir}/${rcFile}`)) {
+    rcOpts = rcLoader.for(`${global.conf.appDir}/${rcFile}`, {lookup: false});
+  }
+  // Else, lookup for any existing .jsbeautifyrc.
+  else {
+    rcOpts = rcLoader.for(__dirname, {lookup: true});
+  }
+
+  let beautifiedTemplate = extendedTemplate;
+
+  // We sometimes want output templates to be in a language with tags delimited by stashes.
+  // In order for js-beautify to indent such code correctly, any space between control characters #, ^, and /, and
+  // the variable name must be removed. However, we want to add the spaces back later.
+  // \u00A0 is &nbsp; a space character not enterable by keyboard, and therefore a good delimiter.
+  beautifiedTemplate = beautifiedTemplate.replace(/(\{\{#)(\s+)(\S+)/g, '$1$3$2\u00A0');
+  beautifiedTemplate = beautifiedTemplate.replace(/(\{\{\^)(\s+)(\S+)/g, '$1$3$2\u00A0');
+  beautifiedTemplate = beautifiedTemplate.replace(/(\{\{\/)(\s+)(\S+)/g, '$1$3$2\u00A0');
+
+  // Run it through js-beautify.
+  beautifiedTemplate = beautify(beautifiedTemplate, rcOpts);
+
+  // Add back removed spaces to retain the look intended by the author.
+  beautifiedTemplate = beautifiedTemplate.replace(/(\{\{#)(\S+)(\s+)\u00A0/g, '$1$3$2');
+  beautifiedTemplate = beautifiedTemplate.replace(/(\{\{\^)(\S+)(\s+)\u00A0/g, '$1$3$2');
+  beautifiedTemplate = beautifiedTemplate.replace(/(\{\{\/)(\S+)(\s+)\u00A0/g, '$1$3$2');
+
+  // Delete empty lines.
+  beautifiedTemplate = beautifiedTemplate.replace(/^\s*$\n/gm, '');
+
+  return beautifiedTemplate;
 };
 
 // /////////////////////////////////////////////////////////////////////////////

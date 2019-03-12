@@ -19,6 +19,9 @@ const property = utils.deepGet(obj, 'path.to.nested.property');
 ## Functions
 
 <dl>
+<dt><a href="#beautifyTemplate">beautifyTemplate(extendedTemplate)</a> ⇒ <code>string</code></dt>
+<dd><p>Beautify an HTML-like template. Any Feplet/Mustache code within will be beautified as well.</p>
+</dd>
 <dt><a href="#deepGet">deepGet(obj, path)</a> ⇒ <code>*</code> | <code>null</code></dt>
 <dd><p>Get data from a nested property within an object.</p>
 </dd>
@@ -78,6 +81,18 @@ Outputs the warning in yellow text.</p>
 <dd><p>Copy webserved dirs to static site dir.</p>
 </dd>
 </dl>
+
+<a name="beautifyTemplate"></a>
+
+## beautifyTemplate(extendedTemplate) ⇒ <code>string</code>
+Beautify an HTML-like template. Any Feplet/Mustache code within will be beautified as well.
+
+**Kind**: exported function  
+**Returns**: <code>string</code> - The beautified template code.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| extendedTemplate | <code>string</code> | The string contents of an HTML-like template. |
 
 <a name="deepGet"></a>
 
