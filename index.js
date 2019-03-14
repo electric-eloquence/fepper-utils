@@ -157,6 +157,9 @@ exports.pref = () => {
   try {
     const yml = fs.readFileSync(`${global.appDir}/excludes/pref.yml`, enc);
     defaults = yaml.safeLoad(yml);
+
+    // Better to leave this blank than to write the overly specific path in the default pref.yml.
+    delete defaults.instance_file;
   }
   catch (err) {
     exports.error(err);
