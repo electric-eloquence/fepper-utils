@@ -25,8 +25,8 @@ const property = utils.deepGet(obj, 'path.to.nested.property');
 <dt><a href="#deepGet">deepGet(obj, path)</a> ⇒ <code>*</code> | <code>null</code></dt>
 <dd><p>Get data from a nested property within an object.</p>
 </dd>
-<dt><a href="#extendButNotOverride">extendButNotOverride(obj1, obj2)</a> ⇒ <code>object</code></dt>
-<dd><p>Recursively merge properties of two objects.</p>
+<dt><a href="#extendButNotOverride">extendButNotOverride(...objects)</a> ⇒ <code>object</code></dt>
+<dd><p>Recursively merge properties of two or more objects into the first object.</p>
 </dd>
 <dt><a href="#regexReservedCharsEscape">regexReservedCharsEscape(regexStr)</a> ⇒ <code>string</code></dt>
 <dd><p>Escape reserved regular expression characters.</p>
@@ -44,7 +44,7 @@ is prepended with a dot if it was omitted as the first valid character.</p>
 <dt><a href="#findup">findup(filename, workDir)</a> ⇒ <code>string</code></dt>
 <dd><p>Search the file system from a starting directory upward.</p>
 </dd>
-<dt><a href="#pathResolve">pathResolve()</a> ⇒ <code>string</code></dt>
+<dt><a href="#pathResolve">pathResolve(...pathSegments)</a> ⇒ <code>string</code></dt>
 <dd><p>Concatenate and normalize path segments, and also ensure that path separators are forward-slashes.
 Resolution will not occur with the file system, so relative paths will stay relative and wrong paths will stay wrong.
 Accepts string arguments to be concatenated into a forward-slash separated path.</p>
@@ -109,16 +109,15 @@ Get data from a nested property within an object.
 
 <a name="extendButNotOverride"></a>
 
-## extendButNotOverride(obj1, obj2) ⇒ <code>object</code>
-Recursively merge properties of two objects.
+## extendButNotOverride(...objects) ⇒ <code>object</code>
+Recursively merge properties of two or more objects into the first object.
 
 **Kind**: exported function  
-**Returns**: <code>object</code> - The mutated obj1 object.  
+**Returns**: <code>object</code> - The mutated first object.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| obj1 | <code>object</code> | This object's properties have priority over obj2. |
-| obj2 | <code>object</code> | If obj2 has properties obj1 doesn't, add to obj1, but do not override.   Since obj1 gets mutated, the return value is only necessary for the purpose of referencing to a new variable. |
+| ...objects | <code>object</code> | The objects to get merged.   The first object will not have its properties overwritten.   It will be extended with additional properties from the additional objects.   Since the first object gets mutated, the return value is only necessary for referencing to a new variable. |
 
 <a name="regexReservedCharsEscape"></a>
 
@@ -189,7 +188,7 @@ Search the file system from a starting directory upward.
 
 <a name="pathResolve"></a>
 
-## pathResolve() ⇒ <code>string</code>
+## pathResolve(...pathSegments) ⇒ <code>string</code>
 Concatenate and normalize path segments, and also ensure that path separators are forward-slashes.
 Resolution will not occur with the file system, so relative paths will stay relative and wrong paths will stay wrong.
 Accepts string arguments to be concatenated into a forward-slash separated path.
@@ -199,7 +198,7 @@ Accepts string arguments to be concatenated into a forward-slash separated path.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| ......pathSegments | <code>string</code> | Path or path segments. |
+| ...pathSegments | <code>string</code> | Path or path segments. |
 
 <a name="uiConfigNormalize"></a>
 

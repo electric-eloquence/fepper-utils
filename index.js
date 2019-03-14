@@ -300,7 +300,7 @@ exports.deepGet = (obj, path) => {
 /**
  * Recursively merge properties of two or more objects into the first object.
  *
- * @param {...object} ...objects - The objects to get merged.
+ * @param {...object} objects - The objects to get merged.
  *   The first object will not have its properties overwritten.
  *   It will be extended with additional properties from the additional objects.
  *   Since the first object gets mutated, the return value is only necessary for referencing to a new variable.
@@ -484,7 +484,7 @@ exports.findup = (filename, workDir) => {
  * Resolution will not occur with the file system, so relative paths will stay relative and wrong paths will stay wrong.
  * Accepts string arguments to be concatenated into a forward-slash separated path.
  *
- * @param {...string} ...pathSegments - Path or path segments.
+ * @param {...string} pathSegments - Path or path segments.
  * @returns {string} Path.
  */
 exports.pathResolve = (...pathSegments) => {
