@@ -298,41 +298,58 @@ exports.deepGet = (obj, path) => {
 };
 
 /**
- * Recursively merge properties of two objects.
+ * Recursively merge properties of two or more objects into the first object.
  *
- * @param {object} obj1 - This object's properties have priority over obj2.
- * @param {object} obj2 - If obj2 has properties obj1 doesn't, add to obj1, but do not override.
- *   Since obj1 gets mutated, the return value is only necessary for the purpose of referencing to a new variable.
- * @returns {object} The mutated obj1 object.
+ * @param {...object} ...objects - The objects to get merged.
+ *   The first object will not have its properties overwritten.
+ *   It will be extended with additional properties from the additional objects.
+ *   Since the first object gets mutated, the return value is only necessary for referencing to a new variable.
+ * @returns {object} The mutated first object.
  */
-exports.extendButNotOverride = (obj1, obj2) => {
-  for (let i in obj2) {
-    if (obj2.hasOwnProperty(i)) {
+exports.extendButNotOverride = (...objects) => {
+  const target = objects[0];
+
+  for (let i = 1, l = objects.length; i < l; i++) {
+    const source = objects[i];
+
+    for (let j in source) {
+      if (!source.hasOwnProperty(j)) {
+        continue;
+      }
+
       try {
-        // Only recurse if obj2[i] is an object.
-        if (obj2[i].constructor === Object) {
-          // Requires 2 objects as params; create obj1[i] if undefined.
-          if (typeof obj1[i] === 'undefined' || obj1[i] === null) {
-            obj1[i] = {};
+
+        // Only recurse if source[j] is an Object. Will copy arrays since we're not going to resolve lengths.
+        if (source[j].constructor === Object) {
+
+          // Create target[j] if undefined and source[j] is defined.
+          // eslint-disable-next-line eqeqeq
+          if (target[j] == null) {
+            target[j] = {};
           }
-          obj1[i] = exports.extendButNotOverride(obj1[i], obj2[i]);
-        // Pop when recursion meets a non-object. If obj2[i] is a non-object,
-        // only copy to undefined obj1[i]. This way, obj1 is not overriden.
+
+          target[j] = exports.extendButNotOverride(target[j], source[j]);
         }
-        else if (typeof obj1[i] === 'undefined' || obj1[i] === null) {
-          obj1[i] = obj2[i];
+
+        // Pop when recursion meets a non-Object. If source[j] is a non-Object, only copy to undefined target[j].
+        // This way, target is not overriden, only extended.
+        // eslint-disable-next-line eqeqeq
+        else if (target[j] == null) {
+          target[j] = source[j];
         }
       }
       catch (err) {
+
         // Property in destination object not set; create it and set its value.
-        if (typeof obj1[i] === 'undefined' || obj1[i] === null) {
-          obj1[i] = obj2[i];
+        // eslint-disable-next-line eqeqeq
+        if (target[j] ==null) {
+          target[j] = source[j];
         }
       }
     }
   }
 
-  return obj1;
+  return target;
 };
 
 /**
