@@ -322,7 +322,9 @@ exports.extendButNotOverride = (...objects) => {
 
       try {
 
-        // Only recurse if source[j] is an Object. Will copy arrays since we're not going to resolve lengths.
+        // Only recurse if source[j] is a plain instanceof Object.
+        // Arrays and any other instanceof Object will not get recursed. They will be copied by reference if the target
+        // does not have that property.
         if (source[j].constructor === Object) {
 
           // Create target[j] if undefined and source[j] is defined.
