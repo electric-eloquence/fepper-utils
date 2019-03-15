@@ -5,12 +5,13 @@
   "main": "index.js",
   "scripts": {
     "doc": "node run/doc.js",
-    "lint": "eslint index.js && eslint run"
+    "lint": "eslint index.js && eslint run",
+    "test": "npm run lint"
   },
   "husky": {
     "hooks": {
       "post-commit": "npm run doc",
-      "pre-push": "npm run lint"
+      "pre-push": "npm test"
     }
   },
   "repository": {

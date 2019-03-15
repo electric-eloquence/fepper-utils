@@ -345,7 +345,7 @@ exports.extendButNotOverride = (...objects) => {
 
         // Property in destination object not set; create it and set its value.
         // eslint-disable-next-line eqeqeq
-        if (target[j] ==null) {
+        if (target[j] == null) {
           target[j] = source[j];
         }
       }
