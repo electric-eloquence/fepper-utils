@@ -657,7 +657,7 @@ exports.error = (...args) => {
     }
   }
 
-  exports.console.error.apply(null, args);
+  exports.console.error(...args);
 };
 
 exports.httpCodes = {
@@ -688,7 +688,7 @@ exports.info = (...args) => {
     args[0] = '\x1b[32m' + args[0] + '\x1b[0m';
   }
 
-  exports.console.info.apply(null, args);
+  exports.console.info(...args);
 };
 
 /**
@@ -697,7 +697,7 @@ exports.info = (...args) => {
  * @param {...*} args - Same arguments as console.log.
  */
 exports.log = (...args) => {
-  exports.console.log.apply(null, args);
+  exports.console.log(...args);
 };
 
 /**
@@ -711,7 +711,7 @@ exports.warn = (...args) => {
     args[0] = '\x1b[33m' + args[0] + '\x1b[0m';
   }
 
-  exports.console.warn.apply(null, args);
+  exports.console.warn(...args);
 };
 
 // /////////////////////////////////////////////////////////////////////////////
