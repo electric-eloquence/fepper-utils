@@ -323,8 +323,12 @@ exports.extendButNotOverride = (...objects) => {
       try {
 
         // Only recurse if source[j] is a plain instanceof Object.
-        // Arrays and any other instanceof Object will not get recursed. They will be copied by reference if the target
-        // does not have that property.
+        // Arrays and any other instanceof Object will not get recursed into. No real benefits exists for managing the
+        // complexity wrought by their special properties, like .length, etc. They will be copied by reference in the
+        // following else if block.
+        // If target[j] is a non-plain instanceof Object, it will get recursed into and might get additional properties.
+        // The object will work like any other complex object, but end-users will have be responsible for any unexpected
+        // behavior that results from mismatches that they created.
         if (source[j].constructor === Object) {
 
           // Create target[j] if undefined and source[j] is defined.
@@ -336,8 +340,8 @@ exports.extendButNotOverride = (...objects) => {
           target[j] = exports.extendButNotOverride(target[j], source[j]);
         }
 
-        // Pop when recursion meets a non-Object. If source[j] is a non-Object, only copy to undefined target[j].
-        // This way, target is not overriden, only extended.
+        // Pop when recursion meets anything other than a plain instanceof Object.
+        // Only copy if target[j] is undefined or null. This way, target[j] is not overriden, only extended.
         // eslint-disable-next-line eqeqeq
         else if (target[j] == null) {
           target[j] = source[j];
@@ -345,7 +349,9 @@ exports.extendButNotOverride = (...objects) => {
       }
       catch (err) {
 
-        // Property in destination object not set; create it and set its value.
+        // The most likely reason for getting here is that target[j] is set, but not an instanceof Object.
+        // This will silently fail and continue if that is the case.
+        // Nonetheless, we'll include this next block in the unlikely event that target[j] is undefined or null.
         // eslint-disable-next-line eqeqeq
         if (target[j] == null) {
           target[j] = source[j];
