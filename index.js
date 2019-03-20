@@ -472,22 +472,26 @@ exports.findup = (filename, workDir) => {
     return slash(workDir);
   }
 
-  // Need to work with the operating system's path separators, so use Node path methods.
-  const workDirUp = path.normalize(path.join(workDir, '..'));
+  // Need to accept different operating system path separators, so use Node path methods before running though slash.
+  let workDirUp = slash(path.normalize(path.join(workDir, '..')));
+
+  // Strip Windows drive letter where applicable.
+  workDirUp = workDirUp.replace(/^[A-Z]:/, '');
+
   const workDirUpFiles = fs.readdirSync(workDirUp);
   let dirMatch = '';
 
   if (workDirUpFiles.indexOf(filename) > -1) {
-    return slash(workDirUp);
+    return workDirUp;
   }
-  else if (workDirUp !== '/') {
-    dirMatch = exports.findup(filename, workDirUp);
-  }
-  else {
+  else if (workDirUp === '/' || workDirUp === workDir) {
     return '';
   }
+  else {
+    dirMatch = exports.findup(filename, workDirUp);
+  }
 
-  return slash(dirMatch);
+  return dirMatch;
 };
 
 /**
