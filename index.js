@@ -326,9 +326,9 @@ exports.extendButNotOverride = (...objects) => {
         // Arrays and any other instanceof Object will not get recursed into. No real benefits exists for managing the
         // complexity wrought by their special properties, like .length, etc. They will be copied by reference in the
         // following else if block.
-        // If target[key] is a non-plain instanceof Object, it will get recursed into and might get additional properties.
-        // The object will work like any other complex object, but end-users will have be responsible for any unexpected
-        // behavior that results from mismatches that they created.
+        // There is no check to determine whether target[key] is a non-plain instanceof Object. In such cases, it might
+        // get additional properties. The object will work like any other complex object, but end-users will have to be
+        // responsible for any unexpected behavior.
         if (source[key].constructor === Object) {
 
           // Create target[key] if undefined and source[key] is defined.
@@ -608,7 +608,7 @@ exports.uiConfigNormalize = (uiObj, workDir, appDir) => {
       continue;
     }
 
-    if (i === 'root') {
+    if (pathKey === 'root') {
       continue;
     }
 
