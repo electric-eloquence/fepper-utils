@@ -315,46 +315,46 @@ exports.extendButNotOverride = (...objects) => {
   for (let i = 1, l = objects.length; i < l; i++) {
     const source = objects[i];
 
-    for (let j in source) {
-      if (!source.hasOwnProperty(j)) {
+    for (let key in source) {
+      if (!source.hasOwnProperty(key)) {
         continue;
       }
 
       try {
 
-        // Only recurse if source[j] is a plain instanceof Object.
+        // Only recurse if source[key] is a plain instanceof Object.
         // Arrays and any other instanceof Object will not get recursed into. No real benefits exists for managing the
         // complexity wrought by their special properties, like .length, etc. They will be copied by reference in the
         // following else if block.
-        // If target[j] is a non-plain instanceof Object, it will get recursed into and might get additional properties.
+        // If target[key] is a non-plain instanceof Object, it will get recursed into and might get additional properties.
         // The object will work like any other complex object, but end-users will have be responsible for any unexpected
         // behavior that results from mismatches that they created.
-        if (source[j].constructor === Object) {
+        if (source[key].constructor === Object) {
 
-          // Create target[j] if undefined and source[j] is defined.
+          // Create target[key] if undefined and source[key] is defined.
           // eslint-disable-next-line eqeqeq
-          if (target[j] == null) {
-            target[j] = {};
+          if (target[key] == null) {
+            target[key] = {};
           }
 
-          target[j] = exports.extendButNotOverride(target[j], source[j]);
+          target[key] = exports.extendButNotOverride(target[key], source[key]);
         }
 
         // Pop when recursion meets anything other than a plain instanceof Object.
-        // Only copy if target[j] is undefined or null. This way, target[j] is not overriden, only extended.
+        // Only copy if target[key] is undefined or null. This way, target[key] is not overriden, only extended.
         // eslint-disable-next-line eqeqeq
-        else if (target[j] == null) {
-          target[j] = source[j];
+        else if (target[key] == null) {
+          target[key] = source[key];
         }
       }
       catch (err) {
 
-        // The most likely reason for getting here is that target[j] is set, but not an instanceof Object.
+        // The most likely reason for getting here is that target[key] is set, but not an instanceof Object.
         // This will silently fail and continue if that is the case.
-        // Nonetheless, we'll include this next block in the unlikely event that target[j] is undefined or null.
+        // Nonetheless, we'll include this next block in the unlikely event that target[key] is undefined or null.
         // eslint-disable-next-line eqeqeq
-        if (target[j] == null) {
-          target[j] = source[j];
+        if (target[key] == null) {
+          target[key] = source[key];
         }
       }
     }
@@ -556,12 +556,12 @@ exports.uiConfigNormalize = (uiObj, workDir, appDir) => {
   // gulp.watch() will not trigger on file creation if watching an absolute path, so save normalized relative paths.
   uiObj.pathsRelative = uiObj.pathsRelative || {source: {}, public: {}};
 
-  for (let i in pathsSource) {
-    if (!pathsSource.hasOwnProperty(i)) {
+  for (let pathKey in pathsSource) {
+    if (!pathsSource.hasOwnProperty(pathKey)) {
       continue;
     }
 
-    let pathSource = pathsSource[i];
+    let pathSource = pathsSource[pathKey];
 
     if (pathSource.slice(0, 2) === './') {
       pathSource = pathSource.slice(2);
@@ -571,18 +571,18 @@ exports.uiConfigNormalize = (uiObj, workDir, appDir) => {
       pathSource = pathSource.slice(0, -1);
     }
 
-    if (pathsSource[i].indexOf(workDir) !== 0) {
-      uiObj.pathsRelative.source[i] = pathSource;
-      pathsSource[i] = `${workDir}/${pathSource}`;
+    if (pathSource.indexOf(workDir) !== 0) {
+      uiObj.pathsRelative.source[pathKey] = pathSource;
+      pathsSource[pathKey] = `${workDir}/${pathSource}`;
     }
   }
 
-  for (let i in pathsPublic) {
-    if (!pathsPublic.hasOwnProperty(i)) {
+  for (let pathKey in pathsPublic) {
+    if (!pathsPublic.hasOwnProperty(pathKey)) {
       continue;
     }
 
-    let pathPublic = pathsPublic[i];
+    let pathPublic = pathsPublic[pathKey];
 
     if (pathPublic.slice(0, 2) === './') {
       pathPublic = pathPublic.slice(2);
@@ -592,9 +592,9 @@ exports.uiConfigNormalize = (uiObj, workDir, appDir) => {
       pathPublic = pathPublic.slice(0, -1);
     }
 
-    if (pathsPublic[i].indexOf(workDir) !== 0) {
-      uiObj.pathsRelative.public[i] = pathPublic;
-      pathsPublic[i] = `${workDir}/${pathPublic}`;
+    if (pathPublic.indexOf(workDir) !== 0) {
+      uiObj.pathsRelative.public[pathKey] = pathPublic;
+      pathsPublic[pathKey] = `${workDir}/${pathPublic}`;
     }
   }
 
@@ -603,8 +603,8 @@ exports.uiConfigNormalize = (uiObj, workDir, appDir) => {
   uiObj.pathsPublic = uiObj.pathsPublic || {};
   const regex = new RegExp('^' + uiObj.pathsRelative.public.root + '\\/');
 
-  for (let i in uiObj.pathsRelative.public) {
-    if (!uiObj.pathsRelative.public.hasOwnProperty(i)) {
+  for (let pathKey in uiObj.pathsRelative.public) {
+    if (!uiObj.pathsRelative.public.hasOwnProperty(pathKey)) {
       continue;
     }
 
@@ -612,7 +612,7 @@ exports.uiConfigNormalize = (uiObj, workDir, appDir) => {
       continue;
     }
 
-    uiObj.pathsPublic[i] = uiObj.pathsRelative.public[i].replace(regex, '');
+    uiObj.pathsPublic[pathKey] = uiObj.pathsRelative.public[pathKey].replace(regex, '');
   }
 
   if (uiObj.patternExportDirectory.indexOf(workDir) !== 0) {
