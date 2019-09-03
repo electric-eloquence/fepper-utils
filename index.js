@@ -433,6 +433,31 @@ exports.backendDirCheck = (backendDir) => {
 };
 
 /**
+ * Recursively empty a directory of files, but not nested directories.
+ *
+ * @param {string} dirToEmpty - Directory to empty.
+ */
+exports.emptyFilesNotDirs = (dirToEmpty) => {
+  if (!fs.existsSync(dirToEmpty)) {
+    return;
+  }
+
+  const files = fs.readdirSync(dirToEmpty);
+
+  for (let i = 0, l = files.length; i < l; i++) {
+    const file = `${dirToEmpty}/${files[i]}`;
+    const stat = fs.statSync(file);
+
+    if (stat.isDirectory()) {
+      exports.emptyFilesNotDirs(file);
+    }
+    else {
+      fs.removeSync(file);
+    }
+  }
+};
+
+/**
  * Normalize a file extension. Ensure that it is trimmed of extraneous whitespace, contains only valid characters, and
  * is prepended with a dot if it was omitted as the first valid character.
  *
