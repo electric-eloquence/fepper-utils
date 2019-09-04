@@ -37,7 +37,7 @@ const property = utils.deepGet(obj, 'path.to.nested.property');
 <dt><a href="#backendDirCheck">backendDirCheck(backendDir)</a> ⇒ <code>string</code></dt>
 <dd><p>Validate existence of a backend subdirectory.</p>
 </dd>
-<dt><a href="#emptyFilesNotDirs">emptyFilesNotDirs(dirToEmpty)</a></dt>
+<dt><a href="#rmRfFilesNotDirs">rmRfFilesNotDirs(dirToEmpty)</a></dt>
 <dd><p>Recursively empty a directory of files, but not nested directories.</p>
 </dd>
 <dt><a href="#extNormalize">extNormalize(ext)</a> ⇒ <code>string</code></dt>
@@ -163,9 +163,9 @@ Validate existence of a backend subdirectory.
 | --- | --- | --- |
 | backendDir | <code>string</code> | The path to a subdirectory of the backend. |
 
-<a name="emptyFilesNotDirs"></a>
+<a name="rmRfFilesNotDirs"></a>
 
-## emptyFilesNotDirs(dirToEmpty)
+## rmRfFilesNotDirs(dirToEmpty)
 Recursively empty a directory of files, but not nested directories.
 
 **Kind**: exported function  
