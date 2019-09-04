@@ -1,6 +1,6 @@
 {
   "name": "fepper-utils",
-  "version": "1.2.3",
+  "version": "1.2.4-rc.0",
   "description": "Fepper utilities",
   "main": "index.js",
   "scripts": {
