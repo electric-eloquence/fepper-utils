@@ -437,7 +437,7 @@ exports.backendDirCheck = (backendDir) => {
  *
  * @param {string} dirToEmpty - Directory to empty.
  */
-exports.emptyFilesNotDirs = (dirToEmpty) => {
+exports.rmRfFilesNotDirs = (dirToEmpty) => {
   if (!fs.existsSync(dirToEmpty)) {
     return;
   }
@@ -449,7 +449,7 @@ exports.emptyFilesNotDirs = (dirToEmpty) => {
     const stat = fs.statSync(file);
 
     if (stat.isDirectory()) {
-      exports.emptyFilesNotDirs(file);
+      exports.rmRfFilesNotDirs(file);
     }
     else {
       fs.removeSync(file);
