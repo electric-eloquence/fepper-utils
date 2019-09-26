@@ -315,11 +315,7 @@ exports.extendButNotOverride = (...objects) => {
   for (let i = 1, l = objects.length; i < l; i++) {
     const source = objects[i];
 
-    for (let key in source) {
-      if (!source.hasOwnProperty(key)) {
-        continue;
-      }
-
+    for (let key of Object.keys(source)) {
       try {
 
         // Only recurse if source[key] is a plain instanceof Object.
@@ -581,11 +577,7 @@ exports.uiConfigNormalize = (uiObj, workDir, appDir) => {
   // gulp.watch() will not trigger on file creation if watching an absolute path, so save normalized relative paths.
   uiObj.pathsRelative = uiObj.pathsRelative || {source: {}, public: {}};
 
-  for (let pathKey in pathsSource) {
-    if (!pathsSource.hasOwnProperty(pathKey)) {
-      continue;
-    }
-
+  for (let pathKey of Object.keys(pathsSource)) {
     let pathSource = pathsSource[pathKey];
 
     if (pathSource.slice(0, 2) === './') {
@@ -602,11 +594,7 @@ exports.uiConfigNormalize = (uiObj, workDir, appDir) => {
     }
   }
 
-  for (let pathKey in pathsPublic) {
-    if (!pathsPublic.hasOwnProperty(pathKey)) {
-      continue;
-    }
-
+  for (let pathKey of Object.keys(pathsPublic)) {
     let pathPublic = pathsPublic[pathKey];
 
     if (pathPublic.slice(0, 2) === './') {
@@ -628,11 +616,7 @@ exports.uiConfigNormalize = (uiObj, workDir, appDir) => {
   uiObj.pathsPublic = uiObj.pathsPublic || {};
   const regex = new RegExp('^' + uiObj.pathsRelative.public.root + '\\/');
 
-  for (let pathKey in uiObj.pathsRelative.public) {
-    if (!uiObj.pathsRelative.public.hasOwnProperty(pathKey)) {
-      continue;
-    }
-
+  for (let pathKey of Object.keys(uiObj.pathsRelative.public)) {
     if (pathKey === 'root') {
       continue;
     }
