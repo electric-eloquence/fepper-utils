@@ -49,8 +49,8 @@
     "slash": "^2.0.0"
   },
   "devDependencies": {
-    "eslint": "5.x",
+    "eslint": "6.x",
     "husky": "1.x",
-    "jsdoc-to-markdown": "^4.0.1"
+    "jsdoc-to-markdown": "^5.0.1"
   }
 }
