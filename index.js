@@ -313,7 +313,7 @@ exports.extendButNotOverride = (...objects) => {
   const target = objects[0];
 
   for (let i = 1, l = objects.length; i < l; i++) {
-    const source = objects[i];
+    const source = objects[i] || {};
 
     for (let key of Object.keys(source)) {
       try {
