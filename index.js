@@ -14,6 +14,8 @@ const enc = 'utf8';
 // Conf and global vars.
 // /////////////////////////////////////////////////////////////////////////////
 
+// The difference between conf and pref is that it is recommended to version-control pref.yml, but not conf.yml.
+// exports.conf() must always be run before exports.pref().
 // Do not JSDoc.
 exports.conf = () => {
   const rootDir = global.rootDir;
@@ -91,9 +93,8 @@ exports.conf = () => {
   // Override defaults with custom values.
   exports.extendButNotOverride(conf, defaults);
 
-  // Turn relative paths into absolute paths.
-  // Using exports.pathResolve() in case there are double-dots in these confs.
-  conf.backend_dir = exports.pathResolve(rootDir, conf.backend_dir);
+  // Turn relative path into absolute path.
+  // Using exports.pathResolve() in case there are double-dots in this conf.
   conf.extend_dir = exports.pathResolve(rootDir, conf.extend_dir);
 
   // Set is_windows boolean.
@@ -137,7 +138,8 @@ exports.findupRootDir = (cwd, dirname) => {
   return rootDir;
 };
 
-// The difference between conf and pref is that conf values are mandatory. The pref file must still exist even if blank.
+// The difference between conf and pref is that it is recommended to version-control pref.yml, but not conf.yml.
+// exports.pref() must always be run after exports.conf().
 // Do not JSDoc.
 exports.pref = () => {
   let pref;
@@ -166,6 +168,21 @@ exports.pref = () => {
     exports.error('Missing or malformed excludes/pref.yml! Exiting!');
 
     return;
+  }
+
+  // Turn relative path into absolute path.
+  // Using exports.pathResolve() in case there are double-dots in these prefs or confs.
+  // It is reasonable to assume that some projects will refer to a backend_dir outside of Fepper with double-dots and
+  // that the maintainers would want this path to be version-controlled. Therefore, it should be a pref.
+  if (pref.backend.backend_dir) {
+    pref.backend.backend_dir = exports.pathResolve(global.rootDir, pref.backend.backend_dir);
+    // TODO: conf.backend_dir is deprecated and will be removed.
+    global.conf.backend_dir = pref.backend.backend_dir;
+  }
+  else {
+    // TODO: conf.backend_dir is deprecated and will be removed.
+    global.conf.backend_dir = exports.pathResolve(global.rootDir, global.conf.backend_dir);
+    pref.backend.backend_dir = global.conf.backend_dir;
   }
 
   exports.extendButNotOverride(pref, defaults);
@@ -402,15 +419,17 @@ exports.shuffle = (a) => {
  */
 exports.backendDirCheck = (backendDir) => {
   if (backendDir && typeof backendDir === 'string') {
+    // TODO: conf.backend_dir is deprecated and will be removed.
+    const backendDirPref = global.pref.backend.backend_dir || global.conf.backend_dir;
     const backendDirTrimmed = backendDir.trim();
     let fullPath;
     let stat;
 
-    if (backendDirTrimmed.indexOf(global.conf.backend_dir) === 0) {
+    if (backendDirTrimmed.indexOf(backendDirPref) === 0) {
       fullPath = backendDirTrimmed;
     }
     else {
-      fullPath = `${global.conf.backend_dir}/${backendDirTrimmed}`;
+      fullPath = `${backendDirPref}/${backendDirTrimmed}`;
     }
 
     try {
@@ -770,10 +789,13 @@ exports.webservedDirnamesTruncate = (webservedDirsFull) => {
  * @param {string} staticDir - The destination directory.
  */
 exports.webservedDirsCopy = (webservedDirsFull, webservedDirsShort, staticDir) => {
+  // TODO: conf.backend_dir is deprecated and will be removed.
+  const backendDirPref = global.pref.backend.backend_dir || global.conf.backend_dir;
+
   for (let i = 0, l = webservedDirsFull.length; i < l; i++) {
     try {
       fs.copySync(
-        `${global.conf.backend_dir}/${webservedDirsFull[i]}`,
+        `${backendDirPref}/${webservedDirsFull[i]}`,
         `${staticDir}/${webservedDirsShort[i]}`
       );
     }
