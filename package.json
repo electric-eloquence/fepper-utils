@@ -49,6 +49,7 @@
     "slash": "^2.0.0"
   },
   "devDependencies": {
+    "babel-eslint": "^10.0.3",
     "eslint": "6.x",
     "husky": "1.x",
     "jsdoc-to-markdown": "^5.0.1"

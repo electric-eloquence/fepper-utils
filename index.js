@@ -142,6 +142,11 @@ exports.findupRootDir = (cwd, dirname) => {
 // exports.pref() must always be run after exports.conf().
 // Do not JSDoc.
 exports.pref = () => {
+  // Return if global.pref already set.
+  if (global.pref) {
+    return global.pref;
+  }
+
   let pref;
   let defaults;
 
@@ -360,7 +365,7 @@ exports.extendButNotOverride = (...objects) => {
           target[key] = source[key];
         }
       }
-      catch (err) {
+      catch {
 
         // The most likely reason for getting here is that target[key] is set, but not an instanceof Object.
         // This will silently fail and continue if that is the case.
@@ -435,9 +440,7 @@ exports.backendDirCheck = (backendDir) => {
     try {
       stat = fs.statSync(fullPath);
     }
-    catch (err) {
-      // Fail gracefully.
-    }
+    catch {} // eslint-disable-line no-empty
 
     if (stat && stat.isDirectory()) {
       return fullPath;
