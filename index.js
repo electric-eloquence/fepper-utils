@@ -142,6 +142,7 @@ exports.findupRootDir = (cwd, dirname) => {
 // exports.pref() must always be run after exports.conf().
 // Do not JSDoc.
 exports.pref = () => {
+
   // Return if global.pref already set.
   if (global.pref) {
     return global.pref;
@@ -152,7 +153,7 @@ exports.pref = () => {
 
   try {
     const yml = fs.readFileSync(`${global.rootDir}/pref.yml`, enc);
-    pref = global.pref = yaml.safeLoad(yml);
+    pref = yaml.safeLoad(yml);
   }
   catch (err) {
     exports.error(err);
