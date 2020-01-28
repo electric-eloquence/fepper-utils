@@ -48,7 +48,7 @@
     "babel-eslint": "^10.0.3",
     "eslint": "6.x",
     "fs-extra": "^8.1.0",
-    "husky": "1.x",
+    "husky": "4.x",
     "js-yaml": "^3.13.1",
     "jsdoc-to-markdown": "^5.0.1",
     "json5": "0.5.1",
