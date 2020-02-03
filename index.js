@@ -416,7 +416,7 @@ exports.shuffle = (a) => {
 /**
  * More efficient global string replace than String.prototype.replace.
  *
- * @param {string} haystack - Full string to be modified. 
+ * @param {string} haystack - Full string to be modified.
  * @param {string} needle - The substring to be replaced.
  * @param {string} replacement - The substring to replace `needle`.
  * @returns {string} Modified full string.
