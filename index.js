@@ -216,6 +216,10 @@ exports.data = () => {
   return data;
 };
 
+// /////////////////////////////////////////////////////////////////////////////
+// Data utilities.
+// /////////////////////////////////////////////////////////////////////////////
+
 /**
  * Beautify an HTML-like template. Any Feplet/Mustache code within will be beautified as well.
  *
@@ -264,10 +268,6 @@ exports.beautifyTemplate = (extendedTemplate) => {
 
   return beautifiedTemplate;
 };
-
-// /////////////////////////////////////////////////////////////////////////////
-// Data utilities.
-// /////////////////////////////////////////////////////////////////////////////
 
 /**
  * Get data from a nested property within an object.
@@ -411,6 +411,29 @@ exports.shuffle = (a) => {
   }
 
   return a;
+};
+
+/**
+ * More efficient global string replace than String.prototype.replace.
+ *
+ * @param {string} haystack - Full string to be modified. 
+ * @param {string} needle - The substring to be replaced.
+ * @param {string} replacement - The substring to replace `needle`.
+ * @returns {string} Modified full string.
+ */
+exports.strReplaceGlobal = (haystack, needle, replacement) => {
+  let haystackNew = haystack;
+  let needleIndex = needle ? haystackNew.indexOf(needle) : -1;
+
+  while (needleIndex > -1) {
+    haystackNew = haystackNew.substring(0, needleIndex) +
+      replacement +
+      haystackNew.substring(needleIndex + needle.length);
+
+    needleIndex = haystackNew.indexOf(needle);
+  }
+
+  return haystackNew;
 };
 
 // /////////////////////////////////////////////////////////////////////////////

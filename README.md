@@ -34,6 +34,9 @@ const property = utils.deepGet(obj, 'path.to.nested.property');
 <dt><a href="#shuffle">shuffle(a)</a> ⇒ <code>array</code></dt>
 <dd><p>Shuffle the elements of an array with the Fisher-Yates algorithm.</p>
 </dd>
+<dt><a href="#strReplaceGlobal">strReplaceGlobal(haystack, needle, replacement)</a> ⇒ <code>string</code></dt>
+<dd><p>More efficient global string replace than String.prototype.replace.</p>
+</dd>
 <dt><a href="#backendDirCheck">backendDirCheck(backendDir)</a> ⇒ <code>string</code></dt>
 <dd><p>Validate existence of a backend subdirectory.</p>
 </dd>
@@ -150,6 +153,20 @@ Shuffle the elements of an array with the Fisher-Yates algorithm.
 | Param | Type | Description |
 | --- | --- | --- |
 | a | <code>array</code> | Array to be shuffled.   Since a gets mutated, the return value is only necessary for the purpose of referencing to a new variable. |
+
+<a name="strReplaceGlobal"></a>
+
+## strReplaceGlobal(haystack, needle, replacement) ⇒ <code>string</code>
+More efficient global string replace than String.prototype.replace.
+
+**Kind**: exported function  
+**Returns**: <code>string</code> - Modified full string.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| haystack | <code>string</code> | Full string to be modified. |
+| needle | <code>string</code> | The substring to be replaced. |
+| replacement | <code>string</code> | The substring to replace `needle`. |
 
 <a name="backendDirCheck"></a>
 
