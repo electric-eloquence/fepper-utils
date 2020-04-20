@@ -125,12 +125,12 @@ exports.findupRootDir = (cwd, dirname) => {
     rootDir = slash(process.env.ROOT_DIR);
   }
   else {
-    // this.findup() will replace backslashes with slashes.
-    rootDir = this.findup('fepper.command', dirname);
+    // exports.findup() will replace backslashes with slashes.
+    rootDir = exports.findup('fepper.command', dirname);
   }
 
   if (!rootDir) {
-    this.error('Fepper cannot find the directory in which to start working! ' +
+    exports.error('Fepper cannot find the directory in which to start working! ' +
       'You may need to submit it as a constructor argument! Exiting!');
     throw new Error('EINVAL');
   }
