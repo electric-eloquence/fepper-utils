@@ -11,14 +11,53 @@ const yaml = require('js-yaml');
 const enc = 'utf8';
 
 // /////////////////////////////////////////////////////////////////////////////
+// Internationalization.
+// /////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Translate using an English key.
+ *
+ * @param {string} key - The phrase in English.
+ * @returns {string} The phrase in another language (or an English alternative).
+ */
+exports.t = (key) => {
+  const lang = exports.deepGet(global, 'pref.lang') || 'en';
+  let i18nFileStr;
+
+  if (
+    exports.deepGet(global, 'conf.ui.paths.source.ui') &&
+    fs.existsSync(`${global.conf.ui.paths.source.ui}/i18n/${lang}.json`)
+  ) {
+    i18nFileStr = fs.readFileSync(`${global.conf.ui.paths.source.ui}/i18n/${lang}.json`, enc);
+  }
+  else if (fs.existsSync(`${global.workDir}/source/_ui/i18n/${lang}.json`)) {
+    i18nFileStr = fs.readFileSync(`${global.workDir}/source/_ui/i18n/${lang}.json`, enc);
+  }
+  else {
+    i18nFileStr = fs.readFileSync(`${global.appDir}/excludes/profile/base/source/_ui/i18n/en.json`, enc);
+  }
+
+  const i18nData = JSON5.parse(i18nFileStr);
+
+  if (i18nData[key]) {
+    return i18nData[key];
+  }
+  else {
+    return key;
+  }
+};
+
+// /////////////////////////////////////////////////////////////////////////////
 // Conf and global vars.
 // /////////////////////////////////////////////////////////////////////////////
 
 // The difference between conf and pref is that it is recommended to version-control pref.yml, but not conf.yml.
 // exports.conf() must always be run before exports.pref().
+// Cannot internationalize messages because conf and pref have not been loaded yet.
 // Do not JSDoc.
 exports.conf = () => {
   const rootDir = global.rootDir;
+  global.t = exports.t;
 
   // Return if global.conf already set.
   if (global.conf) {
@@ -31,7 +70,7 @@ exports.conf = () => {
   // Get custom confs for Fepper core.
   try {
     const yml = fs.readFileSync(`${rootDir}/conf.yml`, enc);
-    conf = yaml.safeLoad(yml);
+    conf = global.conf = yaml.safeLoad(yml);
   }
   catch (err) {
     exports.error(err);
@@ -102,14 +141,10 @@ exports.conf = () => {
 
   // HTML scraper confs. Defining here because they should never be exposed to end-users.
   conf.scrape = {
-    limit_error_msg: 'Submitting too many requests per minute.',
+    limit_error_msg: 'Submitting too many requests per minute',
     limit_time: 30000,
     scraper_file: `00-html-scraper${conf.ui.patternExtension}`
   };
-
-  // Write to global object.
-  // This assignment is deprecated and will be removed. The assignment should be explicit where .conf() is invoked.
-  global.conf = conf;
 
   return conf;
 };
@@ -130,8 +165,8 @@ exports.findupRootDir = (cwd, dirname) => {
   }
 
   if (!rootDir) {
-    exports.error('Fepper cannot find the directory in which to start working! ' +
-      'You may need to submit it as a constructor argument! Exiting!');
+    // eslint-disable-next-line max-len
+    exports.error(`${('Fepper cannot find the directory in which to start working! You may need to submit it as a constructor argument!')} ${t('Exiting!')}`);
     throw new Error('EINVAL');
   }
 
@@ -153,11 +188,11 @@ exports.pref = () => {
 
   try {
     const yml = fs.readFileSync(`${global.rootDir}/pref.yml`, enc);
-    pref = yaml.safeLoad(yml);
+    pref = global.pref = yaml.safeLoad(yml);
   }
   catch (err) {
     exports.error(err);
-    exports.error('Missing or malformed pref.yml! Exiting!');
+    exports.error(`${t('Missing or malformed')} pref.yml! ${t('Exiting!')}`);
 
     return;
   }
@@ -171,7 +206,7 @@ exports.pref = () => {
   }
   catch (err) {
     exports.error(err);
-    exports.error('Missing or malformed excludes/pref.yml! Exiting!');
+    exports.error(`${t('Missing or malformed')} excludes/pref.yml! ${t('Exiting!')}`);
 
     return;
   }
@@ -192,10 +227,6 @@ exports.pref = () => {
   }
 
   exports.extendButNotOverride(pref, defaults);
-
-  // Write to global object.
-  // This assignment is deprecated and will be removed. The assignment should be explicit where .pref() is invoked.
-  global.pref = pref;
 
   return pref;
 };
@@ -290,7 +321,8 @@ exports.deepGet = (obj, path) => {
     // A possible user-error would be `exports.deepGet(nest.egg.yolk)` instead of `exports.deepGet(nest, 'egg.yolk')`.
     // Alert the user when this is the case and provide a stack trace.
     try {
-      throw new Error('fepper-utils deepGet() requires a valid path parameter, i.e. `deepGet(nest, \'egg.yolk\')`');
+      // eslint-disable-next-line max-len
+      throw new Error(`${t('fepper-utils deepGet() requires a valid path parameter, e.g. deepGet(nest, \'egg.yolk\')')}`);
     }
     catch (err) {
       exports.error(err);
@@ -519,7 +551,7 @@ exports.extNormalize = (ext) => {
       return extNormalized;
     }
 
-    exports.error(`The ${ext} extension contains invalid characters!`);
+    exports.error(`${ext} ${t('extension contains invalid characters!')}`);
   }
 
   return '';
@@ -598,11 +630,11 @@ exports.pathResolve = (...pathSegments) => {
  */
 exports.uiConfigNormalize = (uiObj, workDir, appDir) => {
   if (!uiObj || !uiObj.paths || !uiObj.paths.source) {
-    throw 'Missing or malformed paths.source property!';
+    throw `${t('Missing or malformed')} paths.source!`;
   }
 
   if (!uiObj.paths.public) {
-    throw 'Missing or malformed paths.public property!';
+    throw `${t('Missing or malformed')} paths.public!`;
   }
 
   // Fepper automatically sets global.appDir. Pattern Lab without Fepper needs to set it here.

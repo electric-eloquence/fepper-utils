@@ -19,6 +19,9 @@ const property = utils.deepGet(obj, 'path.to.nested.property');
 ## Functions
 
 <dl>
+<dt><a href="#t">t(key)</a> ⇒ <code>string</code></dt>
+<dd><p>Translate using an English key.</p>
+</dd>
 <dt><a href="#beautifyTemplate">beautifyTemplate(extendedTemplate)</a> ⇒ <code>string</code></dt>
 <dd><p>Beautify an HTML-like template. Any Feplet/Mustache code within will be beautified as well.</p>
 </dd>
@@ -87,6 +90,18 @@ Outputs the warning in yellow text.</p>
 <dd><p>Copy webserved dirs to static site dir.</p>
 </dd>
 </dl>
+
+<a name="t"></a>
+
+## t(key) ⇒ <code>string</code>
+Translate using an English key.
+
+**Kind**: exported function  
+**Returns**: <code>string</code> - The phrase in another language (or an English alternative).  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| key | <code>string</code> | The phrase in English. |
 
 <a name="beautifyTemplate"></a>
 

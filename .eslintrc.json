@@ -9,6 +9,9 @@
     "ecmaVersion": 8,
     "sourceType": "script"
   },
+  "globals": {
+    "t": true
+  },
   "rules": {
     // error
     "array-bracket-spacing": [2, "never"],
