@@ -166,7 +166,8 @@ exports.findupRootDir = (cwd, dirname) => {
 
   if (!rootDir) {
     // eslint-disable-next-line max-len
-    exports.error(`${('Fepper cannot find the directory in which to start working! You may need to submit it as a constructor argument!')} ${t('Exiting!')}`);
+    exports.error(`${('Fepper cannot find the directory in which to start working! You may need to submit it as a constructor argument!')} ` +
+      t('Exiting!'));
     throw new Error('EINVAL');
   }
 
