@@ -34,7 +34,7 @@ exports.t = (key) => {
     i18nFileStr = fs.readFileSync(`${global.workDir}/source/_ui/i18n/${lang}.json`, enc);
   }
   else {
-    i18nFileStr = fs.readFileSync(`${global.appDir}/excludes/profile/base/source/_ui/i18n/en.json`, enc);
+    i18nFileStr = fs.readFileSync(`${global.appDir}/excludes/profiles/base/source/_ui/i18n/en.json`, enc);
   }
 
   const i18nData = JSON5.parse(i18nFileStr);
