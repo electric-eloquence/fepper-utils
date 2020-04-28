@@ -166,7 +166,7 @@ exports.findupRootDir = (cwd, dirname) => {
 
   if (!rootDir) {
     // eslint-disable-next-line max-len
-    exports.error(`${('Fepper cannot find the directory in which to start working! You may need to submit it as a constructor argument!')} ` +
+    exports.error(`${t('Fepper cannot find the directory in which to start working! You may need to submit it as a constructor argument!')} ` +
       t('Exiting!'));
     throw new Error('EINVAL');
   }
@@ -193,7 +193,7 @@ exports.pref = () => {
   }
   catch (err) {
     exports.error(err);
-    exports.error(`${t('Missing or malformed')} pref.yml! ${t('Exiting!')}`);
+    exports.error(`${t('Missing or malformed %s')}! ${t('Exiting!')}`, 'pref.yml');
 
     return;
   }
@@ -207,7 +207,7 @@ exports.pref = () => {
   }
   catch (err) {
     exports.error(err);
-    exports.error(`${t('Missing or malformed')} excludes/pref.yml! ${t('Exiting!')}`);
+    exports.error(`${t('Missing or malformed %s')}! ${t('Exiting!')}`, 'excludes/pref.yml');
 
     return;
   }
@@ -552,7 +552,7 @@ exports.extNormalize = (ext) => {
       return extNormalized;
     }
 
-    exports.error(`${ext} ${t('extension contains invalid characters!')}`);
+    exports.error(`${t('%s extension contains invalid characters!')}`, ext);
   }
 
   return '';
@@ -631,11 +631,13 @@ exports.pathResolve = (...pathSegments) => {
  */
 exports.uiConfigNormalize = (uiObj, workDir, appDir) => {
   if (!uiObj || !uiObj.paths || !uiObj.paths.source) {
-    throw `${t('Missing or malformed')} paths.source!`;
+    exports.error(`${t('Missing or malformed %s')}!`, paths.source);
+    throw new Error('ENOENT');
   }
 
   if (!uiObj.paths.public) {
-    throw `${t('Missing or malformed')} paths.public!`;
+    exports.error(`${t('Missing or malformed %s')}!`, paths.public);
+    throw new Error('ENOENT');
   }
 
   // Fepper automatically sets global.appDir. Pattern Lab without Fepper needs to set it here.
