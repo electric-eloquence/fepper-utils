@@ -631,12 +631,12 @@ exports.pathResolve = (...pathSegments) => {
  */
 exports.uiConfigNormalize = (uiObj, workDir, appDir) => {
   if (!uiObj || !uiObj.paths || !uiObj.paths.source) {
-    exports.error(`${t('Missing or malformed %s')}!`, paths.source);
+    exports.error(`${t('Missing or malformed %s')}!`, 'paths.source');
     throw new Error('ENOENT');
   }
 
   if (!uiObj.paths.public) {
-    exports.error(`${t('Missing or malformed %s')}!`, paths.public);
+    exports.error(`${t('Missing or malformed %s')}!`, 'paths.public');
     throw new Error('ENOENT');
   }
 
