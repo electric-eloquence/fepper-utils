@@ -322,8 +322,8 @@ exports.deepGet = (obj, path) => {
     // A possible user-error would be `exports.deepGet(nest.egg.yolk)` instead of `exports.deepGet(nest, 'egg.yolk')`.
     // Alert the user when this is the case and provide a stack trace.
     try {
-      // eslint-disable-next-line max-len
-      throw new Error(`${t('fepper-utils deepGet() requires a valid path parameter, e.g. deepGet(nest, \'egg.yolk\')')}`);
+      // eslint-disable-next-line quotes
+      throw new Error(`${t("fepper-utils deepGet() requires a valid path parameter, e.g. deepGet(nest, 'egg.yolk')")}`);
     }
     catch (err) {
       exports.error(err);
