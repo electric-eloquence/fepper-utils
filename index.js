@@ -150,22 +150,6 @@ exports.conf = () => {
     scraper_file: `00-html-scraper${conf.ui.patternExtension}`
   };
 
-  // Turn relative path into absolute path.
-  // Using exports.pathResolve() in case there are double-dots in these prefs or confs.
-  // It is reasonable to assume that some projects will refer to a backend_dir outside of Fepper with double-dots and
-  // that the maintainers would want this path to be version-controlled. Therefore, it should be a pref.
-  // exports.pref() must run before exports.conf() in order for this to work.
-  if (pref.backend.backend_dir) {
-    pref.backend.backend_dir = exports.pathResolve(global.rootDir, pref.backend.backend_dir);
-    // TODO: conf.backend_dir is deprecated and will be removed.
-    global.conf.backend_dir = pref.backend.backend_dir;
-  }
-  else {
-    // TODO: conf.backend_dir is deprecated and will be removed.
-    global.conf.backend_dir = exports.pathResolve(global.rootDir, global.conf.backend_dir);
-    pref.backend.backend_dir = global.conf.backend_dir;
-  }
-
   return conf;
 };
 
@@ -234,6 +218,14 @@ exports.pref = () => {
   }
 
   exports.extendButNotOverride(pref, defaults);
+
+  // Turn relative path into absolute path.
+  // Using exports.pathResolve() in case there are double-dots in these prefs or confs.
+  // It is reasonable to assume that some projects will refer to a backend_dir outside of Fepper with double-dots and
+  // that the maintainers would want this path to be version-controlled. Therefore, it should be a pref.
+  if (pref.backend.backend_dir) {
+    pref.backend.backend_dir = exports.pathResolve(global.rootDir, pref.backend.backend_dir);
+  }
 
   return pref;
 };
@@ -487,8 +479,7 @@ exports.strReplaceGlobal = (haystack, needle, replacement) => {
  */
 exports.backendDirCheck = (backendDir) => {
   if (backendDir && typeof backendDir === 'string') {
-    // TODO: conf.backend_dir is deprecated and will be removed.
-    const backendDirPref = global.pref.backend.backend_dir || global.conf.backend_dir;
+    const backendDirPref = global.pref.backend.backend_dir;
     const backendDirTrimmed = backendDir.trim();
     let fullPath;
     let stat;
@@ -857,8 +848,7 @@ exports.webservedDirnamesTruncate = (webservedDirsFull) => {
  * @param {string} staticDir - The destination directory.
  */
 exports.webservedDirsCopy = (webservedDirsFull, webservedDirsShort, staticDir) => {
-  // TODO: conf.backend_dir is deprecated and will be removed.
-  const backendDirPref = global.pref.backend.backend_dir || global.conf.backend_dir;
+  const backendDirPref = global.pref.backend.backend_dir;
 
   for (let i = 0, l = webservedDirsFull.length; i < l; i++) {
     try {
