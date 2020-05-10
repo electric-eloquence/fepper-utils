@@ -22,22 +22,26 @@ const enc = 'utf8';
  */
 exports.t = (key) => {
   const lang = exports.deepGet(global, 'pref.lang') || 'en';
-  let i18nFileStr;
+  let i18nData = exports.deepGet(global, 'pref.i18n');
 
-  if (
-    exports.deepGet(global, 'conf.ui.paths.source.ui') &&
-    fs.existsSync(`${global.conf.ui.paths.source.ui}/i18n/${lang}.json`)
-  ) {
-    i18nFileStr = fs.readFileSync(`${global.conf.ui.paths.source.ui}/i18n/${lang}.json`, enc);
-  }
-  else if (fs.existsSync(`${global.workDir}/source/_ui/i18n/${lang}.json`)) {
-    i18nFileStr = fs.readFileSync(`${global.workDir}/source/_ui/i18n/${lang}.json`, enc);
-  }
-  else {
-    i18nFileStr = fs.readFileSync(`${global.appDir}/excludes/profiles/base/source/_ui/i18n/en.json`, enc);
-  }
+  if (!i18nData) {
+    let i18nFileStr;
 
-  const i18nData = JSON5.parse(i18nFileStr);
+    if (
+      exports.deepGet(global, 'conf.ui.paths.source.ui') &&
+      fs.existsSync(`${global.conf.ui.paths.source.ui}/i18n/${lang}.json`)
+    ) {
+      i18nFileStr = fs.readFileSync(`${global.conf.ui.paths.source.ui}/i18n/${lang}.json`, enc);
+    }
+    else if (fs.existsSync(`${global.workDir}/source/_ui/i18n/${lang}.json`)) {
+      i18nFileStr = fs.readFileSync(`${global.workDir}/source/_ui/i18n/${lang}.json`, enc);
+    }
+    else {
+      i18nFileStr = fs.readFileSync(`${global.appDir}/excludes/profiles/base/source/_ui/i18n/en.json`, enc);
+    }
+
+    i18nData = global.pref.i18n = JSON5.parse(i18nFileStr);
+  }
 
   if (i18nData[key]) {
     return i18nData[key];
@@ -74,7 +78,7 @@ exports.conf = () => {
   }
   catch (err) {
     exports.error(err);
-    exports.error('Missing or malformed conf.yml! Exiting!');
+    exports.error(`${t('Missing or malformed %s!')} ${t('Exiting!')}`, 'conf.yml');
 
     return;
   }
@@ -89,7 +93,7 @@ exports.conf = () => {
   }
   catch (err) {
     exports.error(err);
-    exports.error('Missing or malformed patternlab-config.json! Exiting!');
+    exports.error(`${t('Missing or malformed %s!')} ${t('Exiting!')}`, 'patternlab-config.json');
 
     return;
   }
@@ -106,7 +110,7 @@ exports.conf = () => {
   }
   catch (err) {
     exports.error(err);
-    exports.error('Missing or malformed excludes/conf.yml! Exiting!');
+    exports.error(`${t('Missing or malformed %s!')} ${t('Exiting!')}`, 'excludes/conf.yml');
 
     return;
   }
@@ -121,7 +125,7 @@ exports.conf = () => {
   }
   catch (err) {
     exports.error(err);
-    exports.error('Missing or malformed excludes/patternlab-config.json! Exiting!');
+    exports.error(`${t('Missing or malformed %s!')} ${t('Exiting!')}`, 'excludes/patternlab-config.json');
 
     return;
   }
@@ -141,10 +145,26 @@ exports.conf = () => {
 
   // HTML scraper confs. Defining here because they should never be exposed to end-users.
   conf.scrape = {
-    limit_error_msg: 'Submitting too many requests per minute',
+    limit_error_msg: t('Too many requests per minute!'),
     limit_time: 30000,
     scraper_file: `00-html-scraper${conf.ui.patternExtension}`
   };
+
+  // Turn relative path into absolute path.
+  // Using exports.pathResolve() in case there are double-dots in these prefs or confs.
+  // It is reasonable to assume that some projects will refer to a backend_dir outside of Fepper with double-dots and
+  // that the maintainers would want this path to be version-controlled. Therefore, it should be a pref.
+  // exports.pref() must run before exports.conf() in order for this to work.
+  if (pref.backend.backend_dir) {
+    pref.backend.backend_dir = exports.pathResolve(global.rootDir, pref.backend.backend_dir);
+    // TODO: conf.backend_dir is deprecated and will be removed.
+    global.conf.backend_dir = pref.backend.backend_dir;
+  }
+  else {
+    // TODO: conf.backend_dir is deprecated and will be removed.
+    global.conf.backend_dir = exports.pathResolve(global.rootDir, global.conf.backend_dir);
+    pref.backend.backend_dir = global.conf.backend_dir;
+  }
 
   return conf;
 };
@@ -186,6 +206,7 @@ exports.pref = () => {
 
   let pref;
   let defaults;
+  global.pref = {};
 
   try {
     const yml = fs.readFileSync(`${global.rootDir}/pref.yml`, enc);
@@ -210,21 +231,6 @@ exports.pref = () => {
     exports.error(`${t('Missing or malformed %s!')} ${t('Exiting!')}`, 'excludes/pref.yml');
 
     return;
-  }
-
-  // Turn relative path into absolute path.
-  // Using exports.pathResolve() in case there are double-dots in these prefs or confs.
-  // It is reasonable to assume that some projects will refer to a backend_dir outside of Fepper with double-dots and
-  // that the maintainers would want this path to be version-controlled. Therefore, it should be a pref.
-  if (pref.backend.backend_dir) {
-    pref.backend.backend_dir = exports.pathResolve(global.rootDir, pref.backend.backend_dir);
-    // TODO: conf.backend_dir is deprecated and will be removed.
-    global.conf.backend_dir = pref.backend.backend_dir;
-  }
-  else {
-    // TODO: conf.backend_dir is deprecated and will be removed.
-    global.conf.backend_dir = exports.pathResolve(global.rootDir, global.conf.backend_dir);
-    pref.backend.backend_dir = global.conf.backend_dir;
   }
 
   exports.extendButNotOverride(pref, defaults);
