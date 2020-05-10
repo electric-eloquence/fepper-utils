@@ -20,7 +20,7 @@ const enc = 'utf8';
  * @param {string} key - The phrase in English.
  * @returns {string} The phrase in another language (or an English alternative).
  */
-exports.t = (key) => {
+exports.t = global.t = (key) => {
   const lang = exports.deepGet(global, 'pref.lang') || 'en';
   let i18nData = exports.deepGet(global, 'pref.i18n');
 
@@ -40,7 +40,11 @@ exports.t = (key) => {
       i18nFileStr = fs.readFileSync(`${global.appDir}/excludes/profiles/base/source/_ui/i18n/en.json`, enc);
     }
 
-    i18nData = global.pref.i18n = JSON5.parse(i18nFileStr);
+    i18nData = JSON5.parse(i18nFileStr);
+
+    if (global.pref) {
+      global.pref.i18n = i18nData;
+    }
   }
 
   if (i18nData[key]) {
@@ -61,7 +65,6 @@ exports.t = (key) => {
 // Do not JSDoc.
 exports.conf = () => {
   const rootDir = global.rootDir;
-  global.t = exports.t;
 
   // Return if global.conf already set.
   if (global.conf) {
