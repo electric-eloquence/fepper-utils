@@ -20,7 +20,7 @@ const enc = 'utf8';
  * @param {string} key - The phrase in English.
  * @returns {string} The phrase in another language (or an English alternative).
  */
-exports.t = global.t = (key) => {
+exports.t = (key) => {
   const lang = exports.deepGet(global, 'pref.lang') || 'en';
   let i18nData = exports.deepGet(global, 'pref.i18n');
 
@@ -54,6 +54,8 @@ exports.t = global.t = (key) => {
     return key;
   }
 };
+
+global.t = exports.t;
 
 // /////////////////////////////////////////////////////////////////////////////
 // Conf and global vars.
