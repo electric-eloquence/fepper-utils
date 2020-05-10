@@ -334,24 +334,11 @@ exports.deepGet = (obj, path) => {
     return null;
   }
 
-  if (pathElements.length > 1) {
-    const firstElement = pathElements.shift();
-
-    if (obj[firstElement]) {
-      return exports.deepGet(obj[firstElement], pathElements);
-    }
-    else {
-      return null;
-    }
-  }
-  else {
-    if (obj[pathElements[0]]) {
-      return obj[pathElements[0]];
-    }
-    else {
-      return null;
-    }
-  }
+  return pathElements.reduce(
+    (accumulatedObj, pathElement) =>
+      (accumulatedObj && accumulatedObj[pathElement]) ? accumulatedObj[pathElement] : null,
+    obj
+  );
 };
 
 /**
