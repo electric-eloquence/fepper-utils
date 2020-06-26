@@ -426,11 +426,11 @@ exports.regexReservedCharsEscape = (regexStr) => {
  * @returns {array} Shuffled array.
  */
 exports.shuffle = (a) => {
-  for (let i = a.length - 1; i > 0; i--) {
+  let i = a.length;
+
+  while (i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    const x = a[i];
-    a[i] = a[j];
-    a[j] = x;
+    [a[i], a[j]] = [a[j], a[i]];
   }
 
   return a;
