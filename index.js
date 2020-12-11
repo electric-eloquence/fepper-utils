@@ -428,7 +428,8 @@ exports.regexReservedCharsEscape = (regexStr) => {
 exports.shuffle = (a) => {
   let i = a.length;
 
-  while (i--) {
+  while (i > 1) {
+    i--;
     const j = Math.floor(Math.random() * (i + 1));
     [a[i], a[j]] = [a[j], a[i]];
   }
