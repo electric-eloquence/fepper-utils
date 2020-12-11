@@ -151,7 +151,7 @@ exports.conf = () => {
   // HTML scraper confs. Defining here because they should never be exposed to end-users.
   conf.scrape = {
     limit_error_msg: t('Too many requests per minute!'),
-    limit_time: 30000,
+    limit_time: 15000,
     scraper_file: `00-html-scraper${conf.ui.patternExtension}`
   };
 
