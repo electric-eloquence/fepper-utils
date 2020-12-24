@@ -364,14 +364,17 @@ exports.extendButNotOverride = (...objects) => {
     for (const key of Object.keys(source)) {
       try {
 
-        // Only recurse if source[key] is a plain instanceof Object.
+        // Only recurse if source[key] is an object constructed from the Object prototype or no prototype.
         // Arrays and any other instanceof Object will not get recursed into. No real benefits exists for managing the
         // complexity wrought by their special properties, like .length, etc. They will be copied by reference in the
         // following else if block.
         // There is no check to determine whether target[key] is a non-plain instanceof Object. In such cases, it might
         // get additional properties. The object will work like any other complex object, but end-users will have to be
         // responsible for any unexpected behavior.
-        if (source[key].constructor === Object) {
+        if (
+          source[key] && typeof source[key] === 'object' &&
+          (!source[key].constructor || source[key].constructor === Object)
+        ) {
 
           // Create target[key] if undefined and source[key] is defined.
           // eslint-disable-next-line eqeqeq
