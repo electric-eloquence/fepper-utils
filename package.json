@@ -41,7 +41,7 @@
   },
   "homepage": "https://github.com/electric-eloquence/fepper-utils#readme",
   "dependencies": {
-    "js-beautify": "1.11.0",
+    "js-beautify": "1.13.0",
     "rcloader": "^0.2.2"
   },
   "devDependencies": {
