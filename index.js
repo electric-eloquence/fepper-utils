@@ -365,7 +365,7 @@ exports.extendButNotOverride = (...objects) => {
       try {
 
         // Only recurse if source[key] is an object constructed from the Object prototype or no prototype.
-        // Arrays and any other instanceof Object will not get recursed into. No real benefits exists for managing the
+        // Arrays and any other instanceof Object will not get recursed into. No real benefits exist for managing the
         // complexity wrought by their special properties, like .length, etc. They will be copied by reference in the
         // following else if block.
         // There is no check to determine whether target[key] is a non-plain instanceof Object. In such cases, it might
