@@ -425,6 +425,7 @@ exports.regexReservedCharsEscape = (regexStr) => {
  * Shuffle the elements of an array with the Fisher-Yates algorithm.
  * @see https://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array
  * @see https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
+ * @see https://github.com/e2tha-e/js-shuffle-algorithms
  *
  * @param {array} a - Array to be shuffled.
  *   Since a gets mutated, the return value is only necessary for the purpose of referencing to a new variable.
