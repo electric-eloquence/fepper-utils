@@ -163,6 +163,7 @@ Shuffle the elements of an array with the Fisher-Yates algorithm.
 
 - https://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array
 - https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
+- https://github.com/e2tha-e/js-shuffle-algorithms
 
 
 | Param | Type | Description |
