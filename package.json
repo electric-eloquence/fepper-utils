@@ -41,17 +41,17 @@
   },
   "homepage": "https://github.com/electric-eloquence/fepper-utils#readme",
   "dependencies": {
+    "fs-extra": "^8.1.0",
     "js-beautify": "1.13.0",
-    "rcloader": "^0.2.2"
+    "js-yaml": "^3.13.1",
+    "json5": "0.5.1",
+    "rcloader": "^0.2.2",
+    "slash": "^3.0.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
     "eslint": "7.x",
-    "fs-extra": "^8.1.0",
     "husky": "4.x",
-    "js-yaml": "^3.13.1",
-    "jsdoc-to-markdown": "^5.0.1",
-    "json5": "0.5.1",
-    "slash": "^3.0.0"
+    "jsdoc-to-markdown": "^5.0.1"
   }
 }
