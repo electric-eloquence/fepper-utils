@@ -81,7 +81,7 @@ exports.conf = () => {
   // Get custom confs for Fepper core.
   try {
     const yml = fs.readFileSync(`${rootDir}/conf.yml`, enc);
-    conf = global.conf = yaml.safeLoad(yml);
+    conf = global.conf = yaml.load(yml);
   }
   catch (err) {
     exports.error(err);
@@ -113,7 +113,7 @@ exports.conf = () => {
   // Get default confs for Fepper core.
   try {
     const yml = fs.readFileSync(`${appDir}/excludes/conf.yml`, enc);
-    defaults = yaml.safeLoad(yml);
+    defaults = yaml.load(yml);
   }
   catch (err) {
     exports.error(err);
@@ -201,7 +201,7 @@ exports.pref = () => {
 
   try {
     const yml = fs.readFileSync(`${global.rootDir}/pref.yml`, enc);
-    pref = global.pref = yaml.safeLoad(yml);
+    pref = global.pref = yaml.load(yml);
   }
   catch (err) {
     exports.error(err);
@@ -212,7 +212,7 @@ exports.pref = () => {
 
   try {
     const yml = fs.readFileSync(`${global.appDir}/excludes/pref.yml`, enc);
-    defaults = yaml.safeLoad(yml);
+    defaults = yaml.load(yml);
 
     // Better to leave this blank than to write the overly specific path in the default pref.yml.
     delete defaults.instance_file;
